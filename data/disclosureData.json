@@ -1,43 +1,41 @@
 [
   {
-    "disclosurePanelName": "Chair",
-    "items": [
-      {
-        "label": "Black Leather",
-        "buttonData": [
-          { "id": "btn1", "color": "Violet" },
-          { "id": "btn2", "color": "Indigo" }
-        ]
-      },
-      {
-        "label": "Stitching",
-        "buttonData": [
-          { "id": "btn3", "color": "Blue" },
-          { "id": "btn4", "color": "Green" }
-        ]
-      }
-    ]
-  },
-  {
-    "disclosurePanelName": "Handles",
-    "items": [
-      {
-        "label": "White Rubber",
-        "buttonData": [
-          { "id": "btn5", "color": "Yellow" },
-          { "id": "btn6", "color": "Orange" }
-        ]
-      }
-    ]
-  },
-  {
-    "disclosurePanelName": "Body",
+    "disclosurePanelName": "Steel",
     "items": [
       {
         "label": "Black Metal",
         "buttonData": [
-          { "id": "btn7", "color": "Red" },
-          { "id": "btn8", "color": "Turquoise" }
+          { "id": "btn1", "color": "Yellow" },
+          { "id": "btn2", "color": "Orange" },
+          { "id": "btn3", "color": "Red" },
+          { "id": "btn4", "color": "Turquoise" },
+          { "id": "btn5", "color": "Magenta" },
+          { "id": "btn6", "color": "Cyan" },
+          { "id": "btn7", "color": "Slate" },
+          { "id": "btn8", "color": "Gray" },
+          { "id": "btn9", "color": "White" },
+          { "id": "btn10", "color": "Black" },
+          { "id": "btn11", "color": "Silver" },
+          { "id": "btn12", "color": "Gold" }
+        ]
+      }
+    ]
+  },
+  {
+    "disclosurePanelName": "Upholstery",
+    "items": [
+      {
+        "label": "Grey Leather",
+        "buttonData": [
+          { "id": "btn13", "color": "Violet" },
+          { "id": "btn14", "color": "Indigo" }
+        ]
+      },
+      {
+        "label": "Bentley Stitch On",
+        "buttonData": [
+          { "id": "btn15", "color": "Blue" },
+          { "id": "btn16", "color": "Green" }
         ]
       }
     ]

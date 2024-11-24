@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { Divider } from "@nextui-org/divider";
 import { useState } from "react";
 import DisclosurePanel from "@/components/disclosurePanel";
 import disclosureData from "@/data/disclosureData.json";
@@ -24,7 +25,7 @@ export default function Hero() {
             width={7680}
           />
           <input
-            className="absolute w-32 p-2 rounded-lg bottom-10 left-4 bg-white/80"
+            className="absolute w-32 p-2 rounded-lg bottom-10 left-40 bg-white/80"
             max="2"
             min="1"
             step="0.01"
@@ -34,14 +35,19 @@ export default function Hero() {
           />
         </div>
       </section>
-      <section className="absolute flex flex-col items-center justify-center gap-4 py-8 border-2 wizard md:py-10 border-slate-500">
-        {disclosureData.map((panel) => (
-          <DisclosurePanel
-            key={panel.disclosurePanelName}
-            disclosurePanelName={panel.disclosurePanelName}
-            items={panel.items}
-          />
-        ))}
+      <section className="absolute right-40 top-1/2 transform -translate-y-1/2 flex flex-col items-center justify-center gap-4 py-5 wizard md:py-5 bg-[#1d1d1d] w-80 rounded-lg shadow-[6px_6px_10px_rgba(0,0,0,0.5)]">
+        <h1 className="text-2xl text-[#979f7e] pt-2">Chest Press PL</h1>
+        <Divider className="w-10/12 h-[1px] my-1 bg-[#979f7e]" />
+        <DisclosurePanel disclosureData={disclosureData} />
+      </section>
+      <section className="absolute flex items-center justify-center p-3 left-40 top-10">
+        <Image
+          alt="SPX Logo"
+          className="object-contain w-56 h-56"
+          src="/logo.png"
+          width={437}
+          height={106}
+        ></Image>
       </section>
     </div>
   );
