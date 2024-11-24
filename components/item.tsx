@@ -4,7 +4,6 @@ import { useState } from "react";
 interface ButtonData {
   id: string;
   color: string;
-  onClick: () => void;
 }
 
 interface ItemProps {
@@ -15,9 +14,9 @@ interface ItemProps {
 export default function Item({ ButtonDataList, Label }: ItemProps) {
   const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
 
-  const handleButtonClick = (id: string, onClick: () => void) => {
+  const handleButtonClick = (id: string, color: string) => {
     setActiveButtonId(id);
-    onClick();
+    alert(`Button ${color} clicked`);
   };
 
   return (
@@ -26,14 +25,14 @@ export default function Item({ ButtonDataList, Label }: ItemProps) {
       <div className="flex flex-wrap justify-center gap-4">
         {ButtonDataList.map((button) => (
           <Button
-            isIconOnly
             key={button.id}
-            onPress={() => handleButtonClick(button.id, button.onClick)}
-            radius="full"
-            size="sm"
+            isIconOnly
             className={` ${
               activeButtonId === button.id ? "ring-2 ring-slate-200" : ""
             }`}
+            radius="full"
+            size="sm"
+            onPress={() => handleButtonClick(button.id, button.color)}
           >
             {button.color}
           </Button>

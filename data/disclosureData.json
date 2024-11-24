@@ -1,0 +1,45 @@
+[
+  {
+    "disclosurePanelName": "Chair",
+    "items": [
+      {
+        "label": "Black Leather",
+        "buttonData": [
+          { "id": "btn1", "color": "Violet" },
+          { "id": "btn2", "color": "Indigo" }
+        ]
+      },
+      {
+        "label": "Stitching",
+        "buttonData": [
+          { "id": "btn3", "color": "Blue" },
+          { "id": "btn4", "color": "Green" }
+        ]
+      }
+    ]
+  },
+  {
+    "disclosurePanelName": "Handles",
+    "items": [
+      {
+        "label": "White Rubber",
+        "buttonData": [
+          { "id": "btn5", "color": "Yellow" },
+          { "id": "btn6", "color": "Orange" }
+        ]
+      }
+    ]
+  },
+  {
+    "disclosurePanelName": "Body",
+    "items": [
+      {
+        "label": "Black Metal",
+        "buttonData": [
+          { "id": "btn7", "color": "Red" },
+          { "id": "btn8", "color": "Turquoise" }
+        ]
+      }
+    ]
+  }
+]
