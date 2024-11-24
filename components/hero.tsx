@@ -173,28 +173,29 @@ export default function Hero() {
             {/* Overlaying Images */}
             <Image
               priority
-              alt="Equation 1"
+              alt="Metal Ivory"
               className="object-contain w-full h-full pointer-events-none select-none"
               height={4320}
               quality={100}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-              src="/eq1.png"
+              src="/Metal_Ivory.png"
               unoptimized={zoomLevel > 1}
               width={7680}
               draggable={false}
             />
             {/* Add more images here, transparent ones*/}
-            {/* <Image
+            <Image
               priority
               alt="Overlay Image"
               className="absolute top-0 left-0 object-contain w-full h-full pointer-events-none select-none"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-              height={1080}
-              width={1920}
+              height={4320}
+              width={7680}
+              quality={100}
               unoptimized={zoomLevel > 1}
-              src="/eq2.png"
+              src="/Bench_Rustic_Stitch.png"
               draggable={false}
-            /> */}
+            />
           </div>
         </div>
         {/* Zoom Slider outside the image container */}
@@ -214,7 +215,9 @@ export default function Hero() {
       </section>
       {/* ... rest of your code remains unchanged ... */}
       <section className="absolute right-40 top-1/2 transform -translate-y-1/2 flex flex-col items-center justify-center gap-4 py-5 wizard md:py-5 bg-[#1d1d1d] w-80 rounded-lg shadow-[6px_6px_10px_rgba(0,0,0,0.5)]">
-        <h1 className="text-2xl text-[#979f7e] pt-2">Chest Press PL</h1>
+        <h1 className="text-2xl text-[#979f7e] pt-2 flex items-center justify-center">
+          Chest Press PL
+        </h1>
         <Divider className="w-10/12 h-[1px] my-1 bg-[#979f7e]" />
         <DisclosurePanel disclosureData={disclosureData} />
       </section>
