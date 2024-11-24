@@ -11,7 +11,7 @@ export default function Hero() {
   const isDragging = useRef(false);
   const imagePosition = useRef({ x: 0, y: 0 });
   const lastMousePosition = useRef({ x: 0, y: 0 });
-  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [transformStyle, setTransformStyle] = useState("");
   const prevZoomLevel = useRef(zoomLevel);
 
@@ -121,16 +121,16 @@ export default function Hero() {
     clampImagePosition();
   };
 
-  // Prevent image from being dragged outside of its container
+  // Prevent images from being dragged outside of their container
   const clampImagePosition = () => {
-    if (imageContainerRef.current) {
-      const containerWidth = imageContainerRef.current.offsetWidth;
-      const containerHeight = imageContainerRef.current.offsetHeight;
-      const imageWidth = containerWidth * zoomLevel;
-      const imageHeight = containerHeight * zoomLevel;
+    if (containerRef.current) {
+      const containerWidth = containerRef.current.offsetWidth;
+      const containerHeight = containerRef.current.offsetHeight;
+      const contentWidth = containerWidth * zoomLevel;
+      const contentHeight = containerHeight * zoomLevel;
 
-      const maxX = (imageWidth - containerWidth) / 2;
-      const maxY = (imageHeight - containerHeight) / 2;
+      const maxX = (contentWidth - containerWidth) / 2;
+      const maxY = (contentHeight - containerHeight) / 2;
 
       imagePosition.current.x = Math.max(
         -maxX,
@@ -148,56 +148,69 @@ export default function Hero() {
   return (
     <div className="relative flex w-screen h-screen overflow-hidden">
       <section className="w-full h-full">
-        <div className="relative w-full h-full">
-          {/* Image Container */}
+        {/* Container for Images */}
+        <div
+          className="relative w-full h-full overflow-hidden"
+          ref={containerRef}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+          style={{
+            cursor:
+              zoomLevel > 1
+                ? isDragging.current
+                  ? "grabbing"
+                  : "grab"
+                : "default",
+          }}
+        >
           <div
-            className="w-full h-full overflow-hidden"
-            ref={imageContainerRef}
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleTouchStart}
+            className="absolute inset-0"
             style={{
-              cursor:
-                zoomLevel > 1
-                  ? isDragging.current
-                    ? "grabbing"
-                    : "grab"
-                  : "default",
+              transform: transformStyle,
+              willChange: "transform",
             }}
           >
+            {/* Overlaying Images */}
             <Image
               priority
               alt="Equation 1"
-              className="object-contain w-full h-full select-none"
+              className="object-contain w-full h-full pointer-events-none select-none"
               height={4320}
               quality={100}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
               src="/eq1.png"
               unoptimized={zoomLevel > 1}
               width={7680}
-              draggable={false} // Prevent default image drag behavior
-              style={{
-                transform: transformStyle,
-                willChange: "transform",
-                userSelect: "none",
-                pointerEvents: "none", // Allow events to pass through to the container
-              }}
+              draggable={false}
             />
+            {/* Add more images here, transparent ones*/}
+            {/* <Image
+              priority
+              alt="Overlay Image"
+              className="absolute top-0 left-0 object-contain w-full h-full pointer-events-none select-none"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+              height={1080}
+              width={1920}
+              unoptimized={zoomLevel > 1}
+              src="/eq2.png"
+              draggable={false}
+            /> */}
           </div>
-          {/* Zoom Slider outside the image container */}
-          <input
-            className="absolute z-10 w-32 p-2 rounded-lg bottom-10 left-40 bg-white/80"
-            max="2"
-            min="1"
-            step="0.01"
-            type="range"
-            value={zoomLevel}
-            onChange={(e) => {
-              setZoomLevel(parseFloat(e.target.value));
-            }}
-            onMouseDown={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
-          />
         </div>
+        {/* Zoom Slider outside the image container */}
+        <input
+          className="absolute z-10 w-32 p-2 rounded-lg bottom-10 left-40 bg-white/80"
+          max="2"
+          min="1"
+          step="0.01"
+          type="range"
+          value={zoomLevel}
+          onChange={(e) => {
+            setZoomLevel(parseFloat(e.target.value));
+          }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+        />
       </section>
       {/* ... rest of your code remains unchanged ... */}
       <section className="absolute right-40 top-1/2 transform -translate-y-1/2 flex flex-col items-center justify-center gap-4 py-5 wizard md:py-5 bg-[#1d1d1d] w-80 rounded-lg shadow-[6px_6px_10px_rgba(0,0,0,0.5)]">
