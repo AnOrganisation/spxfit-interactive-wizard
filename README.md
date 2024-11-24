@@ -1,52 +1,117 @@
-# Next.js & NextUI Template
+# SPXfit Interactive Wizard
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+A Next.js-based interactive configuration wizard for SPX Fitness equipment, featuring dynamic 3D visualization and customization options.
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+## Features
 
-## Technologies Used
+- Interactive equipment visualization with zoom and pan controls
+- Real-time color and material customization
+- Responsive design for all device sizes
+- Dark/light theme support
+- Touch-enabled for mobile devices
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+## Tech Stack
 
-## How to Use
+- [Next.js 14](https://nextjs.org/) - React framework with app directory structure
+- [NextUI v2](https://nextui.org/) - Modern UI component library
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Tailwind Variants](https://tailwind-variants.org) - Variant generation utility
+- [TypeScript](https://www.typescriptlang.org/) - Static type checking
+- [Framer Motion](https://www.framer.com/motion/) - Animation library
+- [next-themes](https://github.com/pacocoursey/next-themes) - Theme management
 
-### Use the template with create-next-app
+## Prerequisites
 
-To create a new project based on this template using `create-next-app`, run the following command:
+- Node.js 18.17 or later
+- npm, yarn, pnpm, or bun package manager
 
+## Getting Started
+
+1. Clone the repository:
 ```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
+git clone [your-repository-url]
+cd spxfit-interactive-wizard
 ```
 
-### Install dependencies
-
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
+2. Install dependencies:
 ```bash
 npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
 ```
 
-### Run the development server
-
+3. Run the development server:
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### Setup pnpm (optional)
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
+## Available Scripts
 
+- `npm run dev` - Start development server with turbo
+- `npm run build` - Create production build
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint for code quality checks
+
+## Testing
+
+Run the linting checks:
+```bash
+npm run lint
+```
+
+## Project Structure
+
+```
+├── app/                    # Next.js app directory
+├── components/            # Reusable React components
+├── config/               # Configuration files
+├── data/                 # Static JSON data
+├── public/              # Static assets
+├── styles/             # Global styles
+└── types/             # TypeScript type definitions
+```
+
+## Development Guidelines
+
+- Follow the ESLint configuration for code style
+- Use TypeScript for type safety
+- Implement responsive designs using Tailwind CSS
+- Follow the component structure in the components directory
+- Keep configuration in the config directory
+
+## Environment Setup
+
+For pnpm users, add to `.npmrc`:
 ```bash
 public-hoist-pattern[]=*@nextui-org/*
 ```
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
 ## License
 
