@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ButtonData {
   id: string;
@@ -12,6 +12,24 @@ interface ItemProps {
 
 export default function Item({ ButtonDataList }: ItemProps) {
   const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
+
+  // Prevent default dragging for all buttons
+  useEffect(() => {
+    const handleDragStart = (e: Event) => {
+      e.preventDefault();
+    };
+    // Attach drag event listeners to all buttons
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach((button) =>
+      button.addEventListener("dragstart", handleDragStart)
+    );
+    // Cleanup
+    return () => {
+      buttons.forEach((button) =>
+        button.removeEventListener("dragstart", handleDragStart)
+      );
+    };
+  }, []);
 
   // Define a mapping from color names to gradient colors
   const gradientColorMap: { [key: string]: { start: string; end: string } } = {
@@ -63,7 +81,7 @@ export default function Item({ ButtonDataList }: ItemProps) {
               radius="full"
               size="sm"
               onPress={() => handleButtonClick(button.id, button.color)}
-              draggable={false} // Disable dragging of button to avoid unintended behavior
+              draggable={false} // Disable dragging of button
             />
           );
         })}

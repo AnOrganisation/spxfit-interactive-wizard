@@ -51,7 +51,7 @@ export default function DisclosurePanel({
   const currentItem = currentPanel.items[0]; // Assuming we only show the first item of the current panel
 
   return isCarouselView ? (
-    // Render a Swiper carousel for mobile view based on the currentPanel
+    // Render a carousel for mobile view based on the currentPanel
     <div className="flex flex-col items-center justify-center w-full h-32 border-2 border-red-600">
       <div className="flex flex-row justify-between w-10/12 border-2 border-yellow-300 h-1/2">
         <div>
@@ -99,15 +99,21 @@ export default function DisclosurePanel({
           </Button>
         </div>
       </div>
-      <div className="w-full rounded-full bg-[#1d1d1d] h-2/3 flex items-center overflow-x-auto gap-4 p-4">
+      <div
+        id="scroll-container"
+        className="w-full rounded-full bg-[#1d1d1d] h-2/3 flex items-center overflow-x-auto gap-2 p-4 touch-pan-x" // Enable touch-pan-x for better horizontal swipe handling
+        draggable={false} // Ensure the entire container is not draggable
+      >
         {/* Rendering Item components for each buttonData in the current item */}
         {currentItem.buttonData.map((buttonData) => (
-          <Item key={buttonData.id} ButtonDataList={[buttonData]} />
+          <div className="shrink-0" key={buttonData.id}>
+            <Item ButtonDataList={[buttonData]} />
+          </div>
         ))}
       </div>
     </div>
   ) : (
-    //Render the accordion for desktop view
+    // Render the accordion for desktop view
     <Accordion selectionMode="multiple" defaultExpandedKeys={["Steel"]}>
       {disclosureData.map((panel) => (
         <AccordionItem
