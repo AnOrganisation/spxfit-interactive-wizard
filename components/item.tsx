@@ -39,8 +39,8 @@ export default function Item({ ButtonDataList }: ItemProps) {
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap justify-center gap-4 px-14">
+    <>
+      <div className="flex flex-wrap justify-center gap-4 px-14 py-4 mobile:px-4 mobile:py-6 mobile:min-h-[4rem] mobile:flex-row mobile:justify-center mobile:items-center mobile:overflow-x-auto">
         {ButtonDataList.map((button) => {
           const gradientColors = gradientColorMap[button.color] || {
             start: "#FFFFFF",
@@ -63,10 +63,11 @@ export default function Item({ ButtonDataList }: ItemProps) {
               radius="full"
               size="sm"
               onPress={() => handleButtonClick(button.id, button.color)}
+              draggable={false} // Disable dragging of button to avoid unintended behavior
             />
           );
         })}
       </div>
-    </div>
+    </>
   );
 }

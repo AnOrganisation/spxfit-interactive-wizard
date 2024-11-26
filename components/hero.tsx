@@ -11,7 +11,7 @@ export default function Hero() {
         <ImageContainer />
       </section>
       <SidePanel />
-      <section className="absolute flex items-center justify-center p-3 left-40 top-10">
+      <section className="absolute flex items-center justify-center p-3 -top-20 mobile:-top-20 mobile:left-1">
         <Image
           alt="SPX Logo"
           className="object-contain w-56 h-56"
