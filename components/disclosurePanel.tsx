@@ -101,15 +101,12 @@ export default function DisclosurePanel({
       </div>
       <div
         id="scroll-container"
-        className="w-full rounded-full bg-[#1d1d1d] h-2/3 flex items-center overflow-x-auto gap-2 p-4 touch-pan-x" // Enable touch-pan-x for better horizontal swipe handling
+        className="w-full rounded-full bg-[#1d1d1d] h-2/3 flex items-center overflow-x-auto gap-2 p-4 touch-pan-x " // Enable touch-pan-x for better horizontal swipe handling
         draggable={false} // Ensure the entire container is not draggable
       >
         {/* Rendering Item components for each buttonData in the current item */}
-        {currentItem.buttonData.map((buttonData) => (
-          <div className="shrink-0" key={buttonData.id}>
-            <Item ButtonDataList={[buttonData]} />
-          </div>
-        ))}
+        {/* Pass all buttons to a single Item component */}
+        <Item ButtonDataList={currentItem.buttonData} />
       </div>
     </div>
   ) : (

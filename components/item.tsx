@@ -1,3 +1,5 @@
+// Item.tsx
+
 import { Button } from "@nextui-org/button";
 import { useState, useEffect } from "react";
 
@@ -13,13 +15,15 @@ interface ItemProps {
 export default function Item({ ButtonDataList }: ItemProps) {
   const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
 
-  // Prevent default dragging for all buttons
+  // Prevent default dragging for all buttons within this Item component
   useEffect(() => {
     const handleDragStart = (e: Event) => {
       e.preventDefault();
     };
-    // Attach drag event listeners to all buttons
-    const buttons = document.querySelectorAll("button");
+    // Select only the buttons within this Item component
+    const buttons = document.querySelectorAll(
+      `button[data-item-id="${ButtonDataList[0].id}"]`
+    );
     buttons.forEach((button) =>
       button.addEventListener("dragstart", handleDragStart)
     );
@@ -29,7 +33,7 @@ export default function Item({ ButtonDataList }: ItemProps) {
         button.removeEventListener("dragstart", handleDragStart)
       );
     };
-  }, []);
+  }, [ButtonDataList]);
 
   // Define a mapping from color names to gradient colors
   const gradientColorMap: { [key: string]: { start: string; end: string } } = {
@@ -52,13 +56,30 @@ export default function Item({ ButtonDataList }: ItemProps) {
   };
 
   const handleButtonClick = (id: string, color: string) => {
-    setActiveButtonId(id);
+    setActiveButtonId(id); // Activate the clicked button, deactivate others in this Item
     alert(`Button ${color} clicked`);
   };
 
   return (
     <>
-      <div className="flex flex-wrap justify-center gap-4 px-14 py-4 mobile:px-4 mobile:py-6 mobile:min-h-[4rem] mobile:flex-row mobile:justify-center mobile:items-center mobile:overflow-x-auto">
+      <div
+        className="
+        flex 
+        flex-wrap 
+        justify-center 
+        gap-4 
+        px-14 
+        py-4 
+        mobile:px-4 
+        mobile:py-6 
+        mobile:min-h-[4rem] 
+        mobile:flex-row 
+        mobile:flex-nowrap 
+        mobile:justify-center 
+        mobile:items-center 
+        mobile:overflow-x-auto
+      "
+      >
         {ButtonDataList.map((button) => {
           const gradientColors = gradientColorMap[button.color] || {
             start: "#FFFFFF",
@@ -67,6 +88,8 @@ export default function Item({ ButtonDataList }: ItemProps) {
 
           const gradientStyle = {
             background: `radial-gradient(108.76% 95.18% at 20.89% 30.38%, ${gradientColors.start} 22.5%, ${gradientColors.end} 100%)`,
+            transform: activeButtonId === button.id ? "scale(1.2)" : "scale(1)", // Scale the button when active
+            transition: "transform 0.2s ease-in-out", // Add transition for smooth scaling
           };
 
           return (
@@ -82,6 +105,7 @@ export default function Item({ ButtonDataList }: ItemProps) {
               size="sm"
               onPress={() => handleButtonClick(button.id, button.color)}
               draggable={false} // Disable dragging of button
+              data-item-id={button.id} // Unique identifier for buttons in this Item
             />
           );
         })}
