@@ -35,24 +35,20 @@ export default function Item({ ButtonDataList }: ItemProps) {
     };
   }, [ButtonDataList]);
 
-  // Define a mapping from color names to gradient colors
+  // Updated gradientColorMap with only specified colors
   const gradientColorMap: { [key: string]: { start: string; end: string } } = {
-    Violet: { start: "#EE82EE", end: "#9400D3" },
-    Indigo: { start: "#4B0082", end: "#2E0854" },
-    Blue: { start: "#1E90FF", end: "#00008B" },
-    Green: { start: "#00FF7F", end: "#006400" },
-    Yellow: { start: "#FFFF00", end: "#FFD700" },
-    Orange: { start: "#FFA500", end: "#FF4500" },
-    Red: { start: "#FF6347", end: "#8B0000" },
-    Turquoise: { start: "#40E0D0", end: "#008080" },
-    Magenta: { start: "#FF00FF", end: "#800080" },
-    Cyan: { start: "#00FFFF", end: "#008B8B" },
-    Slate: { start: "#708090", end: "#2F4F4F" },
-    Gray: { start: "#D3D3D3", end: "#696969" },
-    White: { start: "#FFFFFF", end: "#F5F5F5" },
-    Black: { start: "#000000", end: "#2F2F2F" },
-    Silver: { start: "#C0C0C0", end: "#A9A9A9" },
-    Gold: { start: "#FFD700", end: "#B8860B" },
+    Black: { start: "#000000", end: "#000000" },
+    "Fir Green": { start: "#3e4827", end: "#3e4827" },
+    Brown: { start: "#4e3629", end: "#4e3629" },
+    Grey: { start: "#888b8d", end: "#888b8d" },
+    Ivory: { start: "#e3deca", end: "#e3deca" },
+    Charcoal: { start: "#4b4f54", end: "#4b4f54" },
+    White: { start: "#FFFFFF", end: "#FFFFFF" },
+    Navy: { start: "#002855", end: "#002855" },
+    Bronze: { start: "#84754e", end: "#84754e" },
+    "Pastel Blue": { start: "#7da1c4", end: "#7da1c4" },
+    "Wine Red": { start: "#300505", end: "#300505" }, // Ensure 6-digit hex
+    "Tactical Green": { start: "#98a07f", end: "#98a07f" },
   };
 
   const handleButtonClick = (id: string, color: string) => {
@@ -81,31 +77,40 @@ export default function Item({ ButtonDataList }: ItemProps) {
       "
       >
         {ButtonDataList.map((button) => {
-          const gradientColors = gradientColorMap[button.color] || {
-            start: "#FFFFFF",
-            end: "#000000",
-          };
+          const gradientColors = gradientColorMap[button.color];
+          const isGradient = !!gradientColors;
 
-          const gradientStyle = {
-            background: `radial-gradient(108.76% 95.18% at 20.89% 30.38%, ${gradientColors.start} 22.5%, ${gradientColors.end} 100%)`,
-            transform: activeButtonId === button.id ? "scale(1.2)" : "scale(1)", // Scale the button when active
-            transition: "transform 0.2s ease-in-out", // Add transition for smooth scaling
-          };
+          const gradientStyle = isGradient
+            ? {
+                background: `radial-gradient(108.76% 95.18% at 20.89% 30.38%, ${gradientColors!.start} 22.5%, ${gradientColors!.end} 100%)`,
+                transform:
+                  activeButtonId === button.id ? "scale(1.2)" : "scale(1)",
+                transition: "transform 0.2s ease-in-out",
+              }
+            : {
+                backgroundColor: /^#([0-9A-F]{3}){1,2}$/i.test(button.color)
+                  ? button.color
+                  : undefined,
+                transform:
+                  activeButtonId === button.id ? "scale(1.2)" : "scale(1)",
+                transition: "transform 0.2s ease-in-out",
+              };
 
           return (
             <Button
               key={button.id}
               isIconOnly
               className={`
-                ring-1 ring-slate-200
-                ${activeButtonId === button.id ? "ring-4 ring-[#979f7e]" : ""}
-              `}
+              ring-1 ring-slate-200
+              ${activeButtonId === button.id ? "ring-4 ring-[#979f7e]" : ""}
+            `}
               style={gradientStyle}
               radius="full"
               size="sm"
               onPress={() => handleButtonClick(button.id, button.color)}
-              draggable={false} // Disable dragging of button
-              data-item-id={button.id} // Unique identifier for buttons in this Item
+              draggable={false}
+              data-item-id={button.id}
+              aria-pressed={activeButtonId === button.id} // Accessibility attribute
             />
           );
         })}
