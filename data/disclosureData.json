@@ -5,18 +5,66 @@
       {
         "label": "Item 1",
         "buttonData": [
-          { "id": "btn1", "color": "Black" },
-          { "id": "btn2", "color": "Fir Green" },
-          { "id": "btn3", "color": "Brown" },
-          { "id": "btn4", "color": "Grey" },
-          { "id": "btn5", "color": "Ivory" },
-          { "id": "btn6", "color": "Charcoal" },
-          { "id": "btn7", "color": "White" },
-          { "id": "btn8", "color": "Navy" },
-          { "id": "btn9", "color": "Bronze" },
-          { "id": "btn10", "color": "Pastel Blue" },
-          { "id": "btn11", "color": "Wine Red" },
-          { "id": "btn12", "color": "Tactical Green" }
+          {
+            "id": "btn1",
+            "color": "Black",
+            "src_stitch": "/Metal/Metal_Black.png"
+          },
+          {
+            "id": "btn2",
+            "color": "Fir Green",
+            "src_stitch": "/Metal/Metal_FirGreen.png"
+          },
+          {
+            "id": "btn3",
+            "color": "Brown",
+            "src_stitch": "/Metal/Metal_Brown.png"
+          },
+          {
+            "id": "btn4",
+            "color": "Grey",
+            "src_stitch": "/Metal/Metal_Grey.png"
+          },
+          {
+            "id": "btn5",
+            "color": "Ivory",
+            "src_stitch": "/Metal/Metal_Ivory.png"
+          },
+          {
+            "id": "btn6",
+            "color": "Charcoal",
+            "src_stitch": "/Metal/Metal_Charcoal.png"
+          },
+          {
+            "id": "btn7",
+            "color": "White",
+            "src_stitch": "/Metal/Metal_White.png"
+          },
+          {
+            "id": "btn8",
+            "color": "Navy",
+            "src_stitch": "/Metal/Metal_Navy.png"
+          },
+          {
+            "id": "btn9",
+            "color": "Bronze",
+            "src_stitch": "/Metal/Metal_Bronze.png"
+          },
+          {
+            "id": "btn10",
+            "color": "Pastel Blue",
+            "src_stitch": "/Metal/Metal_PastelBlue.png"
+          },
+          {
+            "id": "btn11",
+            "color": "Wine Red",
+            "src_stitch": "/Metal/Metal_WineRed.png"
+          },
+          {
+            "id": "btn12",
+            "color": "Tactical Green",
+            "src_stitch": "/Metal/Metal_TacticalGreen.png"
+          }
         ]
       }
     ]
@@ -27,14 +75,54 @@
       {
         "label": "Item 2",
         "buttonData": [
-          { "id": "btn13", "color": "Black Leather" },
-          { "id": "btn14", "color": "Champagne Leather" },
-          { "id": "btn15", "color": "Grey Leather" },
-          { "id": "btn16", "color": "Navy Leather" },
-          { "id": "btn17", "color": "Green Leather" },
-          { "id": "btn18", "color": "Rustic Leather" },
-          { "id": "btn19", "color": "Burnt Orange Leather" },
-          { "id": "btn20", "color": "Light Brown Leather" }
+          {
+            "id": "btn13",
+            "color": "Black Leather",
+            "src_stitch": "/Bench_Stitch/Bench_Black_Stitch.png",
+            "src_nostitch": "/Bench_NoStitch/Black_NoStitch.png"
+          },
+          {
+            "id": "btn14",
+            "color": "Champagne Leather",
+            "src_stitch": "/Bench_Stitch/Bench_Champagne_Stitch.png",
+            "src_nostitch": "/Bench_NoStitch/Bench_Champagne_NoStitch.png"
+          },
+          {
+            "id": "btn15",
+            "color": "Grey Leather",
+            "src_stitch": "/Bench_Stitch/Bench_Grey_Stitch.png",
+            "src_nostitch": "/Bench_NoStitch/Bench_Grey_NoStitch.png"
+          },
+          {
+            "id": "btn16",
+            "color": "Navy Leather",
+            "src_stitch": "/Bench_Stitch/Bench_Navy_Stitch.png",
+            "src_nostitch": "/Bench_NoStitch/Bench_Navy_NoStitch.png"
+          },
+          {
+            "id": "btn17",
+            "color": "Green Leather",
+            "src_stitch": "/Bench_Stitch/Bench_Green_Stitch.png",
+            "src_nostitch": "/Bench_NoStitch/Bench_Green_NoStitch.png"
+          },
+          {
+            "id": "btn18",
+            "color": "Rustic Leather",
+            "src_stitch": "/Bench_Stitch/Bench_Rustic_Stitch.png",
+            "src_nostitch": "/Bench_NoStitch/Bench_Rustic_NoStitch.png"
+          },
+          {
+            "id": "btn19",
+            "color": "Burnt Orange Leather",
+            "src_stitch": "/Bench_Stitch/Bench_BurntOrange_Stitch.png",
+            "src_nostitch": "/Bench_NoStitch/Bench_BurntOrange_NoStitch.png"
+          },
+          {
+            "id": "btn20",
+            "color": "Light Brown Leather",
+            "src_stitch": "/Bench_Stitch/Bench_LightBrown_Stitch.png",
+            "src_nostitch": "/Bench_NoStitch/Bench_LightBrown_NoStitch.png"
+          }
         ]
       },
       {

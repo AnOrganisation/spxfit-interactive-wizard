@@ -24,17 +24,21 @@ interface DisclosurePanelData {
 
 interface DisclosurePanelProps {
   disclosureData: DisclosurePanelData[];
+  setActiveSteelImage(value: string): void;
+  setActiveBenchImage(value: string): void;
   isCarouselView: boolean;
 }
 
 export default function DisclosurePanel({
   disclosureData,
+  setActiveSteelImage,
+  setActiveBenchImage,
   isCarouselView,
 }: DisclosurePanelProps) {
   // State to manage the current panel index (for carousel view)
   const [currentPanelIndex, setCurrentPanelIndex] = useState(0);
 
-  // **Updated State: Manage active colors per item**
+  // ** State to Manage active colors per item**
   const [activeButtonColors, setActiveButtonColors] = useState<{
     [itemLabel: string]: string;
   }>({});
@@ -122,9 +126,12 @@ export default function DisclosurePanel({
         {/* Rendering Item component for the current item */}
         <Item
           ButtonDataList={currentItem.buttonData}
+          disclosurePanelName={currentPanel.disclosurePanelName}
           setActiveButtonColor={(color: string) =>
             handleSetActiveButtonColor(currentItem.label, color)
           }
+          setActiveSteelImage={setActiveSteelImage}
+          setActiveBenchImage={setActiveBenchImage}
         />
       </div>
     </div>
@@ -151,9 +158,12 @@ export default function DisclosurePanel({
               </h3>
               <Item
                 ButtonDataList={item.buttonData}
+                disclosurePanelName={panel.disclosurePanelName}
                 setActiveButtonColor={(color: string) =>
                   handleSetActiveButtonColor(item.label, color)
                 }
+                setActiveSteelImage={setActiveSteelImage}
+                setActiveBenchImage={setActiveBenchImage}
               />
             </div>
           ))}

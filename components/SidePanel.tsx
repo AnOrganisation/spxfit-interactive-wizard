@@ -4,7 +4,15 @@ import DisclosurePanel from "@/components/disclosurePanel";
 import disclosureData from "@/data/disclosureData.json";
 import { useState, useEffect } from "react";
 
-export default function SidePanel() {
+interface SidePanelProps {
+  setActiveSteelImage(value: string): void;
+  setActiveBenchImage(value: string): void;
+}
+
+export default function SidePanel({
+  setActiveSteelImage,
+  setActiveBenchImage,
+}: SidePanelProps) {
   const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
@@ -28,6 +36,8 @@ export default function SidePanel() {
         {/* Mobile View Carousel */}
         <DisclosurePanel
           disclosureData={disclosureData}
+          setActiveSteelImage={setActiveSteelImage}
+          setActiveBenchImage={setActiveBenchImage}
           isCarouselView={true}
         />
       </section>
@@ -38,7 +48,12 @@ export default function SidePanel() {
         Chest Press PL
       </h1>
       <Divider className="w-10/12 h-[1px] my-1 bg-[#979f7e]" />
-      <DisclosurePanel disclosureData={disclosureData} isCarouselView={false} />
+      <DisclosurePanel
+        disclosureData={disclosureData}
+        setActiveSteelImage={setActiveSteelImage}
+        setActiveBenchImage={setActiveBenchImage}
+        isCarouselView={false}
+      />
     </section>
   );
 }

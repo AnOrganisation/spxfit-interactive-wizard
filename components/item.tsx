@@ -6,18 +6,30 @@ import { useState, useEffect } from "react";
 interface ButtonData {
   id: string;
   color: string;
+  src_stitch?: string;
+  src_bench?: string;
 }
 
 interface ItemProps {
   ButtonDataList: ButtonData[];
+  disclosurePanelName: string;
   setActiveButtonColor: (value: string) => void;
+  setActiveSteelImage(value: string): void;
+  setActiveBenchImage(value: string): void;
 }
 
 export default function Item({
   ButtonDataList,
+  disclosurePanelName,
   setActiveButtonColor,
+  setActiveSteelImage,
+  setActiveBenchImage,
 }: ItemProps) {
   const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
+
+  // ** State to Manage active image strings
+  const [selectedSteelImage, setSelectedSteelImage] = useState<string>("");
+  const [selectedBenchImage, setSelectedBenchImage] = useState<string>("");
 
   // Prevent default dragging for all buttons within this Item component
   useEffect(() => {
@@ -75,9 +87,17 @@ export default function Item({
     "Light Brown Leather": "#97572b",
   };
 
-  const handleButtonClick = (id: string, color: string) => {
-    setActiveButtonId(id); // Activate the clicked button, deactivate others in this Item
-    setActiveButtonColor(color); // Update the active button color in the parent component
+  const handleButtonClick = (
+    buttonDataObject: ButtonData,
+    panelName: string
+  ) => {
+    setActiveButtonId(buttonDataObject.id); // Activate the clicked button, deactivate others in this Item
+    setActiveButtonColor(buttonDataObject.color); // Update the active button color in the parent component
+
+    if (panelName === "Steel") {
+      console.log(buttonDataObject.src_stitch);
+      setActiveSteelImage(buttonDataObject.src_stitch ?? "");
+    }
   };
 
   return (
@@ -129,7 +149,7 @@ export default function Item({
             style={gradientStyle}
             radius="full"
             size="sm"
-            onPress={() => handleButtonClick(button.id, button.color)}
+            onPress={() => handleButtonClick(button, disclosurePanelName)}
             draggable={false}
             data-item-id={button.id}
             aria-pressed={activeButtonId === button.id} // Accessibility attribute

@@ -2,10 +2,16 @@
 import Image from "next/image";
 
 interface OverlayImagesProps {
+  activeSteelImage: string;
+  activeBenchImage: string;
   zoomLevel: number;
 }
 
-export default function OverlayImages({ zoomLevel }: OverlayImagesProps) {
+export default function OverlayImages({
+  zoomLevel,
+  activeSteelImage,
+  activeBenchImage,
+}: OverlayImagesProps) {
   return (
     <>
       <Image
@@ -15,7 +21,7 @@ export default function OverlayImages({ zoomLevel }: OverlayImagesProps) {
         height={4320}
         quality={100}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-        src="/Metal_Ivory.png"
+        src={activeSteelImage}
         unoptimized={zoomLevel > 1}
         width={7680}
         draggable={false}

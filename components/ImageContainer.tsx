@@ -4,7 +4,15 @@ import { useState, useRef, useEffect } from "react";
 import OverlayImages from "@/components/overlayImages";
 import ZoomSlider from "@/components/zoomSlider";
 
-export default function ImageContainer() {
+interface ImageContainerProps {
+  activeSteelImage: string;
+  activeBenchImage: string;
+}
+
+export default function ImageContainer({
+  activeSteelImage,
+  activeBenchImage,
+}: ImageContainerProps) {
   const [zoomLevel, setZoomLevel] = useState(1);
   const isDragging = useRef(false);
   const imagePosition = useRef({ x: 0, y: 0 });
@@ -110,7 +118,11 @@ export default function ImageContainer() {
         className="absolute inset-0"
         style={{ transform: transformStyle, willChange: "transform" }}
       >
-        <OverlayImages zoomLevel={zoomLevel} />
+        <OverlayImages
+          zoomLevel={zoomLevel}
+          activeSteelImage={activeSteelImage}
+          activeBenchImage={activeBenchImage}
+        />
       </div>
       <ZoomSlider zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />
     </div>
