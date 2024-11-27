@@ -24,10 +24,8 @@ export default function Item({
     const handleDragStart = (e: Event) => {
       e.preventDefault();
     };
-    // Select only the buttons within this Item component
-    const buttons = document.querySelectorAll(
-      `button[data-item-id="${ButtonDataList[0].id}"]`
-    );
+    // Select **all** buttons within this Item component
+    const buttons = document.querySelectorAll(`button[data-item-id]`);
     buttons.forEach((button) =>
       button.addEventListener("dragstart", handleDragStart)
     );
@@ -39,9 +37,19 @@ export default function Item({
     };
   }, [ButtonDataList]);
 
+  // Set the first button as active by default when the component mounts
+  useEffect(() => {
+    if (ButtonDataList.length > 0 && !activeButtonId) {
+      const firstButton = ButtonDataList[0];
+      setActiveButtonId(firstButton.id);
+      setActiveButtonColor(firstButton.color);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ButtonDataList]);
+
   // Updated gradientColorMap with only specified colors
   const gradientColorMap: { [key: string]: { start: string; end: string } } = {
-    Black: { start: "#000000", end: "#000000" },
+    Black: { start: "#000000", end: "#4f4f4f" },
     "Fir Green": { start: "#3e4827", end: "#3e4827" },
     Brown: { start: "#4e3629", end: "#4e3629" },
     Grey: { start: "#888b8d", end: "#888b8d" },
@@ -70,7 +78,6 @@ export default function Item({
   const handleButtonClick = (id: string, color: string) => {
     setActiveButtonId(id); // Activate the clicked button, deactivate others in this Item
     setActiveButtonColor(color); // Update the active button color in the parent component
-    alert(`Button ${color} clicked`);
   };
 
   return (
