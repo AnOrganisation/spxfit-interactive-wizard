@@ -3,7 +3,7 @@
     "disclosurePanelName": "Steel",
     "items": [
       {
-        "label": "Black Metal",
+        "label": "Item 1",
         "buttonData": [
           { "id": "btn1", "color": "Black" },
           { "id": "btn2", "color": "Fir Green" },
@@ -25,17 +25,23 @@
     "disclosurePanelName": "Upholstery",
     "items": [
       {
-        "label": "Grey Leather",
+        "label": "Item 2",
         "buttonData": [
-          { "id": "btn13", "color": "Violet" },
-          { "id": "btn14", "color": "Indigo" }
+          { "id": "btn13", "color": "Black Leather" },
+          { "id": "btn14", "color": "Champagne Leather" },
+          { "id": "btn15", "color": "Grey Leather" },
+          { "id": "btn16", "color": "Navy Leather" },
+          { "id": "btn17", "color": "Green Leather" },
+          { "id": "btn18", "color": "Rustic Leather" },
+          { "id": "btn19", "color": "Burnt Orange Leather" },
+          { "id": "btn20", "color": "Light Brown Leather" }
         ]
       },
       {
-        "label": "Bentley Stitch On",
+        "label": "Item 3",
         "buttonData": [
-          { "id": "btn15", "color": "Blue" },
-          { "id": "btn16", "color": "Green" }
+          { "id": "btn21", "color": "Bentley Stitch On" },
+          { "id": "btn22", "color": "Bentley Stitch Off" }
         ]
       }
     ]

@@ -1,3 +1,5 @@
+// disclosurePanel.tsx
+
 import Item from "@/components/item";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { Button } from "@nextui-org/button";
@@ -29,8 +31,13 @@ export default function DisclosurePanel({
   disclosureData,
   isCarouselView,
 }: DisclosurePanelProps) {
-  // State to manage the current panel index
+  // State to manage the current panel index (for carousel view)
   const [currentPanelIndex, setCurrentPanelIndex] = useState(0);
+
+  // **Updated State: Manage active colors per item**
+  const [activeButtonColors, setActiveButtonColors] = useState<{
+    [itemLabel: string]: string;
+  }>({});
 
   // Function to handle going to the previous panel
   const handlePrev = () => {
@@ -46,7 +53,15 @@ export default function DisclosurePanel({
     );
   };
 
-  // Current panel based on index
+  // **Handler to set active button color for a specific item**
+  const handleSetActiveButtonColor = (itemLabel: string, color: string) => {
+    setActiveButtonColors((prevColors) => ({
+      ...prevColors,
+      [itemLabel]: color,
+    }));
+  };
+
+  // Current panel based on index (for carousel view)
   const currentPanel = disclosureData[currentPanelIndex];
   const currentItem = currentPanel.items[0]; // Assuming we only show the first item of the current panel
 
@@ -55,7 +70,7 @@ export default function DisclosurePanel({
     <div className="flex flex-col items-center justify-center w-full h-32 border-2 border-red-600">
       <div className="flex flex-row justify-between w-10/12 border-2 border-yellow-300 h-1/2">
         <div>
-          {/* This button scrolls to the previous panel in the disclosureData array */}
+          {/* Button to scroll to the previous panel */}
           <Button
             isIconOnly
             radius="full"
@@ -82,7 +97,7 @@ export default function DisclosurePanel({
           </div>
         </div>
         <div>
-          {/* This button scrolls to the next panel in the disclosureData array */}
+          {/* Button to scroll to the next panel */}
           <Button
             isIconOnly
             radius="full"
@@ -101,12 +116,16 @@ export default function DisclosurePanel({
       </div>
       <div
         id="scroll-container"
-        className="w-full rounded-full bg-[#1d1d1d] h-2/3 flex items-center overflow-x-auto gap-2 p-4 touch-pan-x " // Enable touch-pan-x for better horizontal swipe handling
+        className="w-full rounded-full bg-[#1d1d1d] h-2/3 flex items-center overflow-x-auto gap-2 p-4 touch-pan-x" // Enable touch-pan-x for better horizontal swipe handling
         draggable={false} // Ensure the entire container is not draggable
       >
-        {/* Rendering Item components for each buttonData in the current item */}
-        {/* Pass all buttons to a single Item component */}
-        <Item ButtonDataList={currentItem.buttonData} />
+        {/* Rendering Item component for the current item */}
+        <Item
+          ButtonDataList={currentItem.buttonData}
+          setActiveButtonColor={(color: string) =>
+            handleSetActiveButtonColor(currentItem.label, color)
+          }
+        />
       </div>
     </div>
   ) : (
@@ -127,9 +146,15 @@ export default function DisclosurePanel({
               className="flex flex-col items-center justify-center mb-4"
             >
               <h3 className="mb-2 text-md text-[#979f7e] items-center justify-center ml-2">
-                {item.label}
+                {/* **Display the active color specific to this item** */}
+                {activeButtonColors[item.label] || ""}
               </h3>
-              <Item ButtonDataList={item.buttonData} />
+              <Item
+                ButtonDataList={item.buttonData}
+                setActiveButtonColor={(color: string) =>
+                  handleSetActiveButtonColor(item.label, color)
+                }
+              />
             </div>
           ))}
         </AccordionItem>

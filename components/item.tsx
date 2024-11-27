@@ -10,9 +10,13 @@ interface ButtonData {
 
 interface ItemProps {
   ButtonDataList: ButtonData[];
+  setActiveButtonColor: (value: string) => void;
 }
 
-export default function Item({ ButtonDataList }: ItemProps) {
+export default function Item({
+  ButtonDataList,
+  setActiveButtonColor,
+}: ItemProps) {
   const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
 
   // Prevent default dragging for all buttons within this Item component
@@ -51,15 +55,27 @@ export default function Item({ ButtonDataList }: ItemProps) {
     "Tactical Green": { start: "#98a07f", end: "#98a07f" },
   };
 
+  // **Added colorMap with specified colors**
+  const colorMap: { [key: string]: string } = {
+    "Black Leather": "#1c1c1c",
+    "Champagne Leather": "#a38658",
+    "Grey Leather": "#5c5c5c",
+    "Navy Leather": "#202A44",
+    "Green Leather": "#65735a",
+    "Rustic Leather": "#6e3f1f",
+    "Burnt Orange Leather": "#CC5500",
+    "Light Brown Leather": "#97572b",
+  };
+
   const handleButtonClick = (id: string, color: string) => {
     setActiveButtonId(id); // Activate the clicked button, deactivate others in this Item
+    setActiveButtonColor(color); // Update the active button color in the parent component
     alert(`Button ${color} clicked`);
   };
 
   return (
-    <>
-      <div
-        className="
+    <div
+      className="
         flex 
         flex-wrap 
         justify-center 
@@ -75,46 +91,44 @@ export default function Item({ ButtonDataList }: ItemProps) {
         mobile:items-center 
         mobile:overflow-x-auto
       "
-      >
-        {ButtonDataList.map((button) => {
-          const gradientColors = gradientColorMap[button.color];
-          const isGradient = !!gradientColors;
+    >
+      {ButtonDataList.map((button) => {
+        const gradientColors = gradientColorMap[button.color];
+        const isGradient = !!gradientColors;
 
-          const gradientStyle = isGradient
-            ? {
-                background: `radial-gradient(108.76% 95.18% at 20.89% 30.38%, ${gradientColors!.start} 22.5%, ${gradientColors!.end} 100%)`,
-                transform:
-                  activeButtonId === button.id ? "scale(1.2)" : "scale(1)",
-                transition: "transform 0.2s ease-in-out",
-              }
-            : {
-                backgroundColor: /^#([0-9A-F]{3}){1,2}$/i.test(button.color)
-                  ? button.color
-                  : undefined,
-                transform:
-                  activeButtonId === button.id ? "scale(1.2)" : "scale(1)",
-                transition: "transform 0.2s ease-in-out",
-              };
+        const gradientStyle = isGradient
+          ? {
+              background: `radial-gradient(108.76% 95.18% at 20.89% 30.38%, ${gradientColors!.start} 22.5%, ${gradientColors!.end} 100%)`,
+              transform:
+                activeButtonId === button.id ? "scale(1.2)" : "scale(1)",
+              transition: "transform 0.2s ease-in-out",
+            }
+          : {
+              // **Updated logic to use colorMap instead of directly using button.color**
+              backgroundColor: colorMap[button.color],
+              transform:
+                activeButtonId === button.id ? "scale(1.2)" : "scale(1)",
+              transition: "transform 0.2s ease-in-out",
+            };
 
-          return (
-            <Button
-              key={button.id}
-              isIconOnly
-              className={`
+        return (
+          <Button
+            key={button.id} // Ensure key is on the Button element
+            isIconOnly
+            className={`
               ring-1 ring-slate-200
               ${activeButtonId === button.id ? "ring-4 ring-[#979f7e]" : ""}
             `}
-              style={gradientStyle}
-              radius="full"
-              size="sm"
-              onPress={() => handleButtonClick(button.id, button.color)}
-              draggable={false}
-              data-item-id={button.id}
-              aria-pressed={activeButtonId === button.id} // Accessibility attribute
-            />
-          );
-        })}
-      </div>
-    </>
+            style={gradientStyle}
+            radius="full"
+            size="sm"
+            onPress={() => handleButtonClick(button.id, button.color)}
+            draggable={false}
+            data-item-id={button.id}
+            aria-pressed={activeButtonId === button.id} // Accessibility attribute
+          />
+        );
+      })}
+    </div>
   );
 }
