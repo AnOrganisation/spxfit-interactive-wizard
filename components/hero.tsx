@@ -7,6 +7,7 @@ import SidePanel from "@/components/SidePanel";
 import Image from "next/image";
 import Head from "next/head";
 import disclosureData from "@/data/disclosureData.json"; // Adjust the path accordingly
+import { Button } from "@nextui-org/button";
 
 interface ButtonData {
   id: string;
@@ -89,6 +90,13 @@ export default function Hero() {
         setActiveSteelImage={setActiveSteelImage}
         setActiveBenchImage={setActiveBenchImage}
       />
+
+      {/* Controls Section */}
+      <section className="absolute flex items-center justify-center p-3 bottom-20 left-20">
+        <Button isIconOnly className="bg-transparent" size="md">
+          <Image alt="view button" src="/view.png" width={65} height={64} />
+        </Button>
+      </section>
 
       {/* Logo Section */}
       <section className="absolute flex items-center justify-center p-3 -top-20 mobile:-top-20 mobile:left-1">
