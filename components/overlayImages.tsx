@@ -35,7 +35,7 @@ export default function OverlayImages({
         width={7680}
         quality={100}
         unoptimized={zoomLevel > 1}
-        src="/Bench_Rustic_Stitch.png"
+        src={activeBenchImage}
         draggable={false}
       />
     </>

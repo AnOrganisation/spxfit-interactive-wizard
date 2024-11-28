@@ -27,10 +27,6 @@ export default function Item({
 }: ItemProps) {
   const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
 
-  // ** State to Manage active image strings
-  const [selectedSteelImage, setSelectedSteelImage] = useState<string>("");
-  const [selectedBenchImage, setSelectedBenchImage] = useState<string>("");
-
   // Prevent default dragging for all buttons within this Item component
   useEffect(() => {
     const handleDragStart = (e: Event) => {
@@ -97,6 +93,10 @@ export default function Item({
     if (panelName === "Steel") {
       console.log(buttonDataObject.src_stitch);
       setActiveSteelImage(buttonDataObject.src_stitch ?? "");
+    }
+    if (panelName === "Upholstery") {
+      console.log(buttonDataObject.src_stitch);
+      setActiveBenchImage(buttonDataObject.src_stitch ?? "");
     }
   };
 

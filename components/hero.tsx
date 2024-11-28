@@ -29,7 +29,9 @@ export default function Hero() {
   const [activeSteelImage, setActiveSteelImage] = useState<string>(
     "/Metal/Metal_Black.png"
   );
-  const [activeBenchImage, setActiveBenchImage] = useState<string>("");
+  const [activeBenchImage, setActiveBenchImage] = useState<string>(
+    "/Bench_Stitch/Bench_Black_Stitch.png"
+  );
 
   // Extract all image paths from disclosureData.json
   const imagePaths: string[] = [];

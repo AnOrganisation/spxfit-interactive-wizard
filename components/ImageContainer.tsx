@@ -1,5 +1,6 @@
 // components/ImageContainer.tsx
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import OverlayImages from "@/components/overlayImages";
 import ZoomSlider from "@/components/zoomSlider";
@@ -108,11 +109,38 @@ export default function ImageContainer({
     }
   }, [zoomLevel]);
 
+  // Handle keyboard interactions
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (zoomLevel <= 1) return;
+
+    if (e.key === "Enter" || e.key === " ") {
+      // Simulate mouse down
+      e.preventDefault();
+      isDragging.current = true;
+      lastMousePosition.current = {
+        x: e.currentTarget.offsetLeft,
+        y: e.currentTarget.offsetTop,
+      };
+
+      // Set cursor to grabbing when activated via keyboard
+      if (containerRef.current) {
+        containerRef.current.style.cursor = "grabbing";
+      }
+
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+  };
+
   return (
     <div
-      className="relative w-full h-full overflow-hidden"
+      className="relative w-full h-full overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-500"
       ref={containerRef}
       onMouseDown={handleMouseDown}
+      role="button" // Assign role to indicate interactivity
+      tabIndex={0} // Make div focusable via keyboard
+      onKeyDown={handleKeyDown} // Handle keyboard interactions
+      aria-pressed={isDragging.current} // ARIA attribute to indicate state if applicable
     >
       <div
         className="absolute inset-0"
