@@ -7,23 +7,27 @@ interface ButtonData {
   id: string;
   color: string;
   src_stitch?: string;
-  src_bench?: string;
+  src_nostitch?: string;
 }
 
 interface ItemProps {
   ButtonDataList: ButtonData[];
   disclosurePanelName: string;
+  upholsteryStitch: boolean;
   setActiveButtonColor: (value: string) => void;
   setActiveSteelImage(value: string): void;
   setActiveBenchImage(value: string): void;
+  setUpholsteryStitch(value: boolean): void;
 }
 
 export default function Item({
   ButtonDataList,
   disclosurePanelName,
+  upholsteryStitch,
   setActiveButtonColor,
   setActiveSteelImage,
   setActiveBenchImage,
+  setUpholsteryStitch,
 }: ItemProps) {
   const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
 
@@ -52,6 +56,7 @@ export default function Item({
       setActiveButtonId(firstButton.id);
       setActiveButtonColor(firstButton.color);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ButtonDataList]);
 
@@ -91,12 +96,19 @@ export default function Item({
     setActiveButtonColor(buttonDataObject.color); // Update the active button color in the parent component
 
     if (panelName === "Steel") {
-      console.log(buttonDataObject.src_stitch);
       setActiveSteelImage(buttonDataObject.src_stitch ?? "");
     }
+
     if (panelName === "Upholstery") {
-      console.log(buttonDataObject.src_stitch);
-      setActiveBenchImage(buttonDataObject.src_stitch ?? "");
+      if (upholsteryStitch) {
+        setActiveBenchImage(buttonDataObject.src_stitch ?? "");
+      } else setActiveBenchImage(buttonDataObject.src_nostitch ?? "");
+    }
+
+    if (buttonDataObject.id === "btn21") {
+      setUpholsteryStitch(true);
+    } else if (buttonDataObject.id === "btn22") {
+      setUpholsteryStitch(false);
     }
   };
 

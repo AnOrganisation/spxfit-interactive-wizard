@@ -69,6 +69,9 @@ export default function DisclosurePanel({
   const currentPanel = disclosureData[currentPanelIndex];
   const currentItem = currentPanel.items[0]; // Assuming we only show the first item of the current panel
 
+  //State to handle upholstery stitch off or on
+  const [upholsteryStitch, setUpholsteryStitch] = useState<boolean>(true);
+
   return isCarouselView ? (
     // Render a carousel for mobile view based on the currentPanel
     <div className="flex flex-col items-center justify-center w-full h-32 border-2 border-red-600">
@@ -132,6 +135,8 @@ export default function DisclosurePanel({
           }
           setActiveSteelImage={setActiveSteelImage}
           setActiveBenchImage={setActiveBenchImage}
+          upholsteryStitch={upholsteryStitch}
+          setUpholsteryStitch={setUpholsteryStitch}
         />
       </div>
     </div>
@@ -164,6 +169,8 @@ export default function DisclosurePanel({
                 }
                 setActiveSteelImage={setActiveSteelImage}
                 setActiveBenchImage={setActiveBenchImage}
+                upholsteryStitch={upholsteryStitch}
+                setUpholsteryStitch={setUpholsteryStitch}
               />
             </div>
           ))}
