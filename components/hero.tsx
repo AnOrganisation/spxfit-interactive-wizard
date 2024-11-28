@@ -13,6 +13,8 @@ interface ButtonData {
   color: string;
   src_stitch?: string;
   src_nostitch?: string;
+  src_stitch_view2?: string;
+  src_nostitch_view2?: string;
 }
 
 interface ItemData {
@@ -27,10 +29,10 @@ interface DisclosurePanelData {
 
 export default function Hero() {
   const [activeSteelImage, setActiveSteelImage] = useState<string>(
-    "/Metal/Metal_Black.png"
+    "/Metal/Metal_Black.webp"
   );
   const [activeBenchImage, setActiveBenchImage] = useState<string>(
-    "/Bench_Stitch/Bench_Black_Stitch.png"
+    "/Bench_Stitch/Bench_Black_Stitch.webp"
   );
 
   // Extract all image paths from disclosureData.json
@@ -45,6 +47,12 @@ export default function Hero() {
         if (button.src_nostitch) {
           imagePaths.push(button.src_nostitch);
         }
+        if (button.src_stitch_view2) {
+          imagePaths.push(button.src_stitch_view2);
+        }
+        if (button.src_nostitch_view2) {
+          imagePaths.push(button.src_nostitch_view2);
+        }
         // Add any additional imageSrc properties here if present
       });
     });
@@ -52,8 +60,7 @@ export default function Hero() {
 
   // Optionally, add any static images you want to preload
   const staticImagePaths: string[] = [
-    "/logo.png",
-    "/Bench_Rustic_Stitch.png",
+    "/Logo.png",
     // Add more static image paths here if needed
   ];
 

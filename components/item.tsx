@@ -57,7 +57,7 @@ export default function Item({
 
   // Updated gradientColorMap with only specified colors
   const gradientColorMap: { [key: string]: { start: string; end: string } } = {
-    Black: { start: "#000000", end: "#4f4f4f" },
+    Black: { start: "#000000", end: "#000000" },
     "Fir Green": { start: "#3e4827", end: "#3e4827" },
     Brown: { start: "#4e3629", end: "#4e3629" },
     Grey: { start: "#888b8d", end: "#888b8d" },
