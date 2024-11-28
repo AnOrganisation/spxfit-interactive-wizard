@@ -91,7 +91,7 @@
             "id": "btn13",
             "color": "Black Leather",
             "src_stitch": "/Bench_Stitch/Bench_Black_Stitch.webp",
-            "src_nostitch": "/Bench_NoStitch/Black_NoStitch.webp",
+            "src_nostitch": "/Bench_NoStitch/Bench_Black_NoStitch.webp",
             "src_stitch_view2": "/Bench_Stitch_View2/Bench_Black_Stitch_View2.webp",
             "src_nostitch_view2": "/Bench_NoStitch_View2/Bench_Black_NoStitch_View2.webp"
           },

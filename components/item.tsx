@@ -60,6 +60,31 @@ export default function Item({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ButtonDataList]);
 
+  // Update bench image when upholsteryStitch changes
+  useEffect(() => {
+    if (disclosurePanelName === "Upholstery" && activeButtonId) {
+      const currentButton = ButtonDataList.find(
+        (btn) => btn.id === activeButtonId
+      );
+      if (
+        currentButton &&
+        (currentButton.src_stitch || currentButton.src_nostitch)
+      ) {
+        setActiveBenchImage(
+          upholsteryStitch
+            ? currentButton.src_stitch!
+            : currentButton.src_nostitch!
+        );
+      }
+    }
+  }, [
+    upholsteryStitch,
+    activeButtonId,
+    ButtonDataList,
+    disclosurePanelName,
+    setActiveBenchImage,
+  ]);
+
   // Updated gradientColorMap with only specified colors
   const gradientColorMap: { [key: string]: { start: string; end: string } } = {
     Black: { start: "#000000", end: "#000000" },
