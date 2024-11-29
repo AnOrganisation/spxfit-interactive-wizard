@@ -72,6 +72,8 @@ export default function Hero() {
     });
   };
 
+  const handleSaveButtonClick = () => {};
+
   // Extract all image paths from disclosureData.json
   const imagePaths: string[] = [];
 
@@ -129,15 +131,31 @@ export default function Hero() {
       />
 
       {/* Controls Section */}
-      <section className="absolute flex items-center justify-center z-10 p-3 bottom-20 left-20 mobile:bottom-[335px] mobile:left-5">
-        <Button
-          isIconOnly
-          className="bg-transparent"
-          size="md"
-          onPress={handleViewButtonClick}
-        >
-          <Image alt="view button" src="/view.png" width={65} height={64} />
-        </Button>
+      <section className="absolute flex items-center justify-center z-10 p-3 bottom-20 left-20 mobile:bottom-[335px] mobile:left-5 w-44">
+        <div className="flex flex-row items-center justify-between w-full">
+          <div className="flex flex-col items-center justify-center">
+            <Button
+              isIconOnly
+              className="bg-transparent"
+              size="md"
+              onPress={handleViewButtonClick}
+            >
+              <Image alt="view button" src="/view.png" width={65} height={64} />
+            </Button>
+            <p className="text-[#1d1d1d]">View</p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <Button
+              isIconOnly
+              className="bg-transparent"
+              size="md"
+              onPress={handleSaveButtonClick}
+            >
+              <Image alt="save button" src="/save.png" width={65} height={64} />
+            </Button>
+            <p className="text-[#1d1d1d]">Save</p>
+          </div>
+        </div>
       </section>
 
       {/* Logo Section */}
