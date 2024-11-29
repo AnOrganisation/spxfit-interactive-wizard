@@ -243,7 +243,7 @@ export default function Hero() {
         <NextImage
           alt="SPX Logo"
           className="object-contain w-56 h-56"
-          src="/logo.png"
+          src="/Logo.png"
           width={437}
           height={106}
           priority // Ensures the logo loads immediately

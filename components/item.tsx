@@ -208,7 +208,7 @@ export default function Item({
             key={button.id} // Ensure key is on the Button element
             isIconOnly
             className={`
-              ring-1 ring-slate-200
+              ring-1 ring-slate-200 shadow-lg
               ${currentActiveButtonId === button.id ? "ring-4 ring-[#979f7e]" : ""}
             `}
             style={gradientStyle}
