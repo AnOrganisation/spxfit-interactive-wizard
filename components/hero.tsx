@@ -1,230 +1,252 @@
-// hero.tsx
+// components/Hero.tsx
 "use client";
-import Image from "next/image";
-import { Divider } from "@nextui-org/divider";
-import { useState, useRef, useEffect } from "react";
-import DisclosurePanel from "@/components/disclosurePanel";
-import disclosureData from "@/data/disclosureData.json";
+
+import { useState, useEffect } from "react";
+import ImageContainer from "@/components/ImageContainer";
+import SidePanel from "@/components/SidePanel";
+import NextImage from "next/image"; // Renamed import
+import Head from "next/head";
+import disclosureData from "@/data/disclosureData.json"; // Adjust the path accordingly
+import { Button } from "@nextui-org/button";
+
+interface ButtonData {
+  id: string;
+  color: string;
+  src_stitch?: string;
+  src_nostitch?: string;
+  src_stitch_view2?: string;
+  src_nostitch_view2?: string;
+}
+
+interface ItemData {
+  label: string;
+  buttonData: ButtonData[];
+}
+
+interface DisclosurePanelData {
+  disclosurePanelName: string;
+  items: ItemData[];
+}
 
 export default function Hero() {
-  const [zoomLevel, setZoomLevel] = useState(1);
-  const isDragging = useRef(false);
-  const imagePosition = useRef({ x: 0, y: 0 });
-  const lastMousePosition = useRef({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [transformStyle, setTransformStyle] = useState("");
-  const prevZoomLevel = useRef(zoomLevel);
+  const [activeSteelImage, setActiveSteelImage] = useState<string>(
+    "/Metal/Metal_Black.webp"
+  );
+  const [activeBenchImage, setActiveBenchImage] = useState<string>(
+    "/Bench_Stitch/Bench_Black_Stitch.webp"
+  );
 
-  const updateTransform = () => {
-    const { x, y } = imagePosition.current;
-    const transform = `translate(${x}px, ${y}px) scale(${zoomLevel})`;
-    setTransformStyle(transform);
-  };
+  // State to track whether to display steel and bench images in side-view or not.
+  const [view2, setView2] = useState<boolean>(false);
 
-  // Update transform when zoomLevel changes
-  useEffect(() => {
-    const zoomRatio = zoomLevel / prevZoomLevel.current;
+  const handleViewButtonClick = () => {
+    setView2((prevView2) => {
+      const newView2 = !prevView2;
+      // Update steel image
+      const steelPath = activeSteelImage
+        .replace("/Metal/", "/Metal_View2/")
+        .replace(".webp", "_View2.webp");
+      const regularSteelPath = activeSteelImage
+        .replace("/Metal_View2/", "/Metal/")
+        .replace("_View2.webp", ".webp");
+      setActiveSteelImage(newView2 ? steelPath : regularSteelPath);
 
-    // Adjust image position to maintain the current view
-    imagePosition.current.x *= zoomRatio;
-    imagePosition.current.y *= zoomRatio;
+      // Update bench image
+      const benchPath = activeBenchImage.includes("_Stitch")
+        ? activeBenchImage
+            .replace("/Bench_Stitch/", "/Bench_Stitch_View2/")
+            .replace(".webp", "_View2.webp")
+        : activeBenchImage
+            .replace("/Bench_NoStitch/", "/Bench_NoStitch_View2/")
+            .replace(".webp", "_View2.webp");
+      const regularBenchPath = activeBenchImage.includes("_Stitch_View2")
+        ? activeBenchImage
+            .replace("/Bench_Stitch_View2/", "/Bench_Stitch/")
+            .replace("_View2.webp", ".webp")
+        : activeBenchImage
+            .replace("/Bench_NoStitch_View2/", "/Bench_NoStitch/")
+            .replace("_View2.webp", ".webp");
+      setActiveBenchImage(newView2 ? benchPath : regularBenchPath);
 
-    clampImagePosition();
-    updateTransform();
-
-    prevZoomLevel.current = zoomLevel;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoomLevel]);
-
-  // Function to handle mouse down (start dragging)
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button !== 0) return; // Only proceed if left mouse button is pressed
-    if (zoomLevel <= 1) return; // Only enable dragging when zoomed in
-
-    isDragging.current = true; // Activate pan mode
-    lastMousePosition.current = { x: e.clientX, y: e.clientY };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-
-    // Prevent default behavior (e.g., image drag)
-    e.preventDefault();
-  };
-
-  // Function to handle mouse move (dragging)
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging.current) return; // Only proceed if pan mode is active
-
-    const deltaX = e.clientX - lastMousePosition.current.x;
-    const deltaY = e.clientY - lastMousePosition.current.y;
-
-    imagePosition.current.x += deltaX;
-    imagePosition.current.y += deltaY;
-
-    lastMousePosition.current = { x: e.clientX, y: e.clientY };
-
-    requestAnimationFrame(() => {
-      updateTransform();
+      return newView2;
     });
   };
 
-  // Function to handle mouse up (stop dragging)
-  const handleMouseUp = () => {
-    isDragging.current = false; // Deactivate pan mode
+  const handleSaveButtonClick = async () => {
+    try {
+      // Create a canvas element
+      const canvas = document.createElement("canvas");
+      canvas.width = 3840; // Adjust based on your image dimensions
+      canvas.height = 2160; // Adjust based on your image dimensions
 
-    window.removeEventListener("mousemove", handleMouseMove);
-    window.removeEventListener("mouseup", handleMouseUp);
+      const context = canvas.getContext("2d");
+      if (!context) {
+        console.error("Failed to get canvas context");
+        return;
+      }
 
-    clampImagePosition();
-  };
+      // Load the images
+      const [steelImage, benchImage] = await Promise.all([
+        loadImage(activeSteelImage),
+        loadImage(activeBenchImage),
+      ]);
 
-  // Touch events for mobile devices
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (zoomLevel <= 1) return;
+      // Draw the images onto the canvas
+      context.drawImage(steelImage, 0, 0, canvas.width, canvas.height);
+      context.drawImage(benchImage, 0, 0, canvas.width, canvas.height);
 
-    isDragging.current = true;
-    const touch = e.touches[0];
-    lastMousePosition.current = { x: touch.clientX, y: touch.clientY };
+      // Convert the canvas to a data URL
+      const dataURL = canvas.toDataURL("image/png");
 
-    window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleTouchEnd);
-    window.addEventListener("touchcancel", handleTouchEnd);
+      // Generate a human-readable filename
+      const steelImageName = getImageName(activeSteelImage);
+      const benchImageName = getImageName(activeBenchImage);
+      const fileName = `Chest Press PL ${steelImageName} - ${benchImageName}.png`;
 
-    // Prevent default behavior (e.g., scrolling)
-    e.preventDefault();
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    if (!isDragging.current) return;
-
-    const touch = e.touches[0];
-    const deltaX = touch.clientX - lastMousePosition.current.x;
-    const deltaY = touch.clientY - lastMousePosition.current.y;
-
-    imagePosition.current.x += deltaX;
-    imagePosition.current.y += deltaY;
-
-    lastMousePosition.current = { x: touch.clientX, y: touch.clientY };
-
-    requestAnimationFrame(() => {
-      updateTransform();
-    });
-  };
-
-  const handleTouchEnd = () => {
-    isDragging.current = false; // Deactivate pan mode
-
-    window.removeEventListener("touchmove", handleTouchMove);
-    window.removeEventListener("touchend", handleTouchEnd);
-    window.removeEventListener("touchcancel", handleTouchEnd);
-
-    clampImagePosition();
-  };
-
-  // Prevent images from being dragged outside of their container
-  const clampImagePosition = () => {
-    if (containerRef.current) {
-      const containerWidth = containerRef.current.offsetWidth;
-      const containerHeight = containerRef.current.offsetHeight;
-      const contentWidth = containerWidth * zoomLevel;
-      const contentHeight = containerHeight * zoomLevel;
-
-      const maxX = (contentWidth - containerWidth) / 2;
-      const maxY = (contentHeight - containerHeight) / 2;
-
-      imagePosition.current.x = Math.max(
-        -maxX,
-        Math.min(maxX, imagePosition.current.x)
-      );
-      imagePosition.current.y = Math.max(
-        -maxY,
-        Math.min(maxY, imagePosition.current.y)
-      );
-
-      updateTransform();
+      // Create a temporary link element to trigger the download
+      const link = document.createElement("a");
+      link.href = dataURL;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error saving image:", error);
     }
   };
 
+  // Helper function to load an image and return a promise
+  const loadImage = (src: string): Promise<HTMLImageElement> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous"; // This is important for cross-origin images
+      img.onload = () => resolve(img);
+      img.onerror = (err: Event | string) => reject(err); // Adjusted parameter type
+      img.src = src;
+    });
+  };
+
+  // Helper function to extract a human-readable name from the image path
+  const getImageName = (imagePath: string): string => {
+    // Extract the filename from the path
+    const pathParts = imagePath.split("/");
+    const filename = pathParts[pathParts.length - 1]; // e.g., "Metal_Black.webp"
+    // Remove the extension
+    const dotIndex = filename.lastIndexOf(".");
+    const filenameWithoutExt =
+      dotIndex !== -1 ? filename.substring(0, dotIndex) : filename;
+    // Replace underscores with spaces
+    const nameWithSpaces = filenameWithoutExt.replace(/_/g, " ");
+    // Remove redundant words (e.g., "Metal Metal Black" -> "Metal Black")
+    const words = nameWithSpaces.split(" ");
+    const uniqueWords = Array.from(new Set(words));
+    const humanReadableName = uniqueWords.join(" ");
+    return humanReadableName;
+  };
+
+  // Extract all image paths from disclosureData.json
+  const imagePaths: string[] = [];
+
+  disclosureData.forEach((panel: DisclosurePanelData) => {
+    panel.items.forEach((item: ItemData) => {
+      item.buttonData.forEach((button: ButtonData) => {
+        if (button.src_stitch) {
+          imagePaths.push(button.src_stitch);
+        }
+        if (button.src_nostitch) {
+          imagePaths.push(button.src_nostitch);
+        }
+        if (button.src_stitch_view2) {
+          imagePaths.push(button.src_stitch_view2);
+        }
+        if (button.src_nostitch_view2) {
+          imagePaths.push(button.src_nostitch_view2);
+        }
+        // Add any additional imageSrc properties here if present
+      });
+    });
+  });
+
+  // Optionally, add any static images you want to preload
+  const staticImagePaths: string[] = [
+    "/Logo.png",
+    // Add more static image paths here if needed
+  ];
+
   return (
     <div className="relative flex w-screen h-screen overflow-hidden">
+      {/* Preload Images */}
+      <Head>
+        {imagePaths.map((src, index) => (
+          <link key={index} rel="preload" as="image" href={src} />
+        ))}
+        {staticImagePaths.map((src, index) => (
+          <link key={`static-${index}`} rel="preload" as="image" href={src} />
+        ))}
+      </Head>
+
+      {/* Main Content */}
       <section className="w-full h-full">
-        {/* Container for Images */}
-        <div
-          className="relative w-full h-full overflow-hidden"
-          ref={containerRef}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
-          style={{
-            cursor:
-              zoomLevel > 1
-                ? isDragging.current
-                  ? "grabbing"
-                  : "grab"
-                : "default",
-          }}
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              transform: transformStyle,
-              willChange: "transform",
-            }}
-          >
-            {/* Overlaying Images */}
-            <Image
-              priority
-              alt="Equation 1"
-              className="object-contain w-full h-full pointer-events-none select-none"
-              height={4320}
-              quality={100}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-              src="/eq1.png"
-              unoptimized={zoomLevel > 1}
-              width={7680}
-              draggable={false}
-            />
-            {/* Add more images here, transparent ones*/}
-            {/* <Image
-              priority
-              alt="Overlay Image"
-              className="absolute top-0 left-0 object-contain w-full h-full pointer-events-none select-none"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-              height={1080}
-              width={1920}
-              unoptimized={zoomLevel > 1}
-              src="/eq2.png"
-              draggable={false}
-            /> */}
-          </div>
-        </div>
-        {/* Zoom Slider outside the image container */}
-        <input
-          className="absolute z-10 w-32 p-2 rounded-lg bottom-10 left-40 bg-white/80"
-          max="2"
-          min="1"
-          step="0.01"
-          type="range"
-          value={zoomLevel}
-          onChange={(e) => {
-            setZoomLevel(parseFloat(e.target.value));
-          }}
-          onMouseDown={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
+        <ImageContainer
+          activeSteelImage={activeSteelImage}
+          activeBenchImage={activeBenchImage}
         />
       </section>
-      {/* ... rest of your code remains unchanged ... */}
-      <section className="absolute right-40 top-1/2 transform -translate-y-1/2 flex flex-col items-center justify-center gap-4 py-5 wizard md:py-5 bg-[#1d1d1d] w-80 rounded-lg shadow-[6px_6px_10px_rgba(0,0,0,0.5)]">
-        <h1 className="text-2xl text-[#979f7e] pt-2">Chest Press PL</h1>
-        <Divider className="w-10/12 h-[1px] my-1 bg-[#979f7e]" />
-        <DisclosurePanel disclosureData={disclosureData} />
+
+      {/* Side Panel with Buttons */}
+      <SidePanel
+        setActiveSteelImage={setActiveSteelImage}
+        setActiveBenchImage={setActiveBenchImage}
+        view2={view2}
+      />
+
+      {/* Controls Section */}
+      <section className="absolute flex items-center justify-center z-10 p-3 bottom-20 left-20 mobile:bottom-[335px] mobile:left-5 w-44">
+        <div className="flex flex-row items-center justify-between w-full">
+          <div className="flex flex-col items-center justify-center">
+            <Button
+              isIconOnly
+              className="bg-transparent"
+              size="md"
+              onPress={handleViewButtonClick}
+            >
+              <NextImage
+                alt="view button"
+                src="/view.png"
+                width={65}
+                height={64}
+              />
+            </Button>
+            <p className="text-[#1d1d1d]">View</p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <Button
+              isIconOnly
+              className="bg-transparent"
+              size="md"
+              onPress={handleSaveButtonClick}
+            >
+              <NextImage
+                alt="save button"
+                src="/save.png"
+                width={65}
+                height={64}
+              />
+            </Button>
+            <p className="text-[#1d1d1d]">Save</p>
+          </div>
+        </div>
       </section>
-      <section className="absolute flex items-center justify-center p-3 left-40 top-10">
-        <Image
+
+      {/* Logo Section */}
+      <section className="absolute flex items-center justify-center p-3 -top-20 mobile:-top-20 mobile:left-1">
+        <NextImage
           alt="SPX Logo"
           className="object-contain w-56 h-56"
-          src="/logo.png"
+          src="/Logo.png"
           width={437}
           height={106}
+          priority // Ensures the logo loads immediately
         />
       </section>
     </div>
