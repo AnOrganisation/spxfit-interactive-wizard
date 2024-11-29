@@ -1,5 +1,5 @@
 // Item.tsx
-
+import Image from "next/image";
 import { Button } from "@nextui-org/button";
 import { useState, useEffect } from "react";
 
@@ -218,7 +218,11 @@ export default function Item({
             draggable={false}
             data-item-id={button.id}
             aria-pressed={currentActiveButtonId === button.id} // Accessibility attribute
-          />
+          >
+            {button.id === "btn21" ? (
+              <Image alt="Stitch On Image" src="/stitch.png" priority fill />
+            ) : null}
+          </Button>
         );
       })}
     </div>
