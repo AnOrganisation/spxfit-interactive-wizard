@@ -7,11 +7,13 @@ import { useState, useEffect } from "react";
 interface SidePanelProps {
   setActiveSteelImage(value: string): void;
   setActiveBenchImage(value: string): void;
+  view2: boolean;
 }
 
 export default function SidePanel({
   setActiveSteelImage,
   setActiveBenchImage,
+  view2,
 }: SidePanelProps) {
   const [isMobileView, setIsMobileView] = useState(false);
 
@@ -39,6 +41,7 @@ export default function SidePanel({
           setActiveSteelImage={setActiveSteelImage}
           setActiveBenchImage={setActiveBenchImage}
           isCarouselView={true}
+          view2={view2}
         />
       </section>
     </>
@@ -53,6 +56,7 @@ export default function SidePanel({
         setActiveSteelImage={setActiveSteelImage}
         setActiveBenchImage={setActiveBenchImage}
         isCarouselView={false}
+        view2={view2}
       />
     </section>
   );

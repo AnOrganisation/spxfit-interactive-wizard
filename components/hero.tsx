@@ -36,6 +36,13 @@ export default function Hero() {
     "/Bench_Stitch/Bench_Black_Stitch.webp"
   );
 
+  //State to track whether to display steel and becnh images in side-view or not.
+  const [view2, setView2] = useState<boolean>(false);
+
+  const handleViewButtonClick = () => {
+    setView2((prevView2) => !prevView2);
+  };
+
   // Extract all image paths from disclosureData.json
   const imagePaths: string[] = [];
 
@@ -89,11 +96,17 @@ export default function Hero() {
       <SidePanel
         setActiveSteelImage={setActiveSteelImage}
         setActiveBenchImage={setActiveBenchImage}
+        view2={view2}
       />
 
       {/* Controls Section */}
       <section className="absolute flex items-center justify-center p-3 bottom-20 left-20">
-        <Button isIconOnly className="bg-transparent" size="md">
+        <Button
+          isIconOnly
+          className="bg-transparent"
+          size="md"
+          onPress={handleViewButtonClick}
+        >
           <Image alt="view button" src="/view.png" width={65} height={64} />
         </Button>
       </section>

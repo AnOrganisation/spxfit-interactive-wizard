@@ -18,19 +18,21 @@ interface ItemProps {
   setActiveSteelImage(value: string): void;
   setActiveBenchImage(value: string): void;
   setUpholsteryStitch(value: boolean): void;
+  view2: boolean;
 }
 
 export default function Item({
   ButtonDataList,
   disclosurePanelName,
   upholsteryStitch,
+  view2,
   setActiveButtonColor,
   setActiveSteelImage,
   setActiveBenchImage,
   setUpholsteryStitch,
 }: ItemProps) {
   const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
-
+  console.log(view2);
   // Prevent default dragging for all buttons within this Item component
   useEffect(() => {
     const handleDragStart = (e: Event) => {

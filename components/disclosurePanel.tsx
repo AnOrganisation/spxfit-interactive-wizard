@@ -27,6 +27,7 @@ interface DisclosurePanelProps {
   setActiveSteelImage(value: string): void;
   setActiveBenchImage(value: string): void;
   isCarouselView: boolean;
+  view2: boolean;
 }
 
 export default function DisclosurePanel({
@@ -34,6 +35,7 @@ export default function DisclosurePanel({
   setActiveSteelImage,
   setActiveBenchImage,
   isCarouselView,
+  view2,
 }: DisclosurePanelProps) {
   // State to manage the current panel index (for carousel view)
   const [currentPanelIndex, setCurrentPanelIndex] = useState(0);
@@ -137,6 +139,7 @@ export default function DisclosurePanel({
           setActiveBenchImage={setActiveBenchImage}
           upholsteryStitch={upholsteryStitch}
           setUpholsteryStitch={setUpholsteryStitch}
+          view2={view2}
         />
       </div>
     </div>
@@ -171,6 +174,7 @@ export default function DisclosurePanel({
                 setActiveBenchImage={setActiveBenchImage}
                 upholsteryStitch={upholsteryStitch}
                 setUpholsteryStitch={setUpholsteryStitch}
+                view2={view2}
               />
             </div>
           ))}
