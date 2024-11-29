@@ -4,7 +4,6 @@ import Item from "@/components/item";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { Button } from "@nextui-org/button";
 import Image from "next/image";
-import "swiper/css"; // Import swiper styles
 import { useState } from "react";
 
 interface ButtonData {
