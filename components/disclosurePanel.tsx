@@ -40,8 +40,11 @@ export default function DisclosurePanel({
   // State to manage the current panel index (for carousel view)
   const [currentPanelIndex, setCurrentPanelIndex] = useState(0);
 
-  // ** State to Manage active colors per item**
+  // State to manage active buttons and colors
   const [activeButtonColors, setActiveButtonColors] = useState<{
+    [itemLabel: string]: string;
+  }>({});
+  const [activeButtonIds, setActiveButtonIds] = useState<{
     [itemLabel: string]: string;
   }>({});
 
@@ -59,11 +62,19 @@ export default function DisclosurePanel({
     );
   };
 
-  // **Handler to set active button color for a specific item**
-  const handleSetActiveButtonColor = (itemLabel: string, color: string) => {
+  // Handler to set active button color and ID for a specific item
+  const handleSetActiveButtonColor = (
+    itemLabel: string,
+    color: string,
+    buttonId: string
+  ) => {
     setActiveButtonColors((prevColors) => ({
       ...prevColors,
       [itemLabel]: color,
+    }));
+    setActiveButtonIds((prevIds) => ({
+      ...prevIds,
+      [itemLabel]: buttonId,
     }));
   };
 
@@ -132,8 +143,8 @@ export default function DisclosurePanel({
         <Item
           ButtonDataList={currentItem.buttonData}
           disclosurePanelName={currentPanel.disclosurePanelName}
-          setActiveButtonColor={(color: string) =>
-            handleSetActiveButtonColor(currentItem.label, color)
+          setActiveButtonColor={(color: string, buttonId: string) =>
+            handleSetActiveButtonColor(currentItem.label, color, buttonId)
           }
           setActiveSteelImage={setActiveSteelImage}
           setActiveBenchImage={setActiveBenchImage}
@@ -167,8 +178,9 @@ export default function DisclosurePanel({
               <Item
                 ButtonDataList={item.buttonData}
                 disclosurePanelName={panel.disclosurePanelName}
-                setActiveButtonColor={(color: string) =>
-                  handleSetActiveButtonColor(item.label, color)
+                activeButtonId={activeButtonIds[item.label]}
+                setActiveButtonColor={(color: string, buttonId: string) =>
+                  handleSetActiveButtonColor(item.label, color, buttonId)
                 }
                 setActiveSteelImage={setActiveSteelImage}
                 setActiveBenchImage={setActiveBenchImage}

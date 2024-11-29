@@ -16,7 +16,8 @@ interface ItemProps {
   ButtonDataList: ButtonData[];
   disclosurePanelName: string;
   upholsteryStitch: boolean;
-  setActiveButtonColor: (value: string) => void;
+  activeButtonId?: string;
+  setActiveButtonColor: (color: string, buttonId: string) => void;
   setActiveSteelImage(value: string): void;
   setActiveBenchImage(value: string): void;
   setUpholsteryStitch(value: boolean): void;
@@ -26,6 +27,7 @@ interface ItemProps {
 export default function Item({
   ButtonDataList,
   disclosurePanelName,
+  activeButtonId,
   upholsteryStitch,
   view2,
   setActiveButtonColor,
@@ -33,8 +35,11 @@ export default function Item({
   setActiveBenchImage,
   setUpholsteryStitch,
 }: ItemProps) {
-  const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
-  console.log(view2);
+  const [localActiveButtonId, setLocalActiveButtonId] = useState<string | null>(
+    null
+  );
+  const currentActiveButtonId = activeButtonId || localActiveButtonId;
+
   // Prevent default dragging for all buttons within this Item component
   useEffect(() => {
     const handleDragStart = (e: Event) => {
@@ -55,10 +60,10 @@ export default function Item({
 
   // Set the first button as active by default when the component mounts
   useEffect(() => {
-    if (ButtonDataList.length > 0 && !activeButtonId) {
+    if (ButtonDataList.length > 0 && !currentActiveButtonId) {
       const firstButton = ButtonDataList[0];
-      setActiveButtonId(firstButton.id);
-      setActiveButtonColor(firstButton.color);
+      setLocalActiveButtonId(firstButton.id);
+      setActiveButtonColor(firstButton.color, firstButton.id);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,9 +71,9 @@ export default function Item({
 
   // Update bench image when upholsteryStitch changes
   useEffect(() => {
-    if (disclosurePanelName === "Upholstery" && activeButtonId) {
+    if (disclosurePanelName === "Upholstery" && currentActiveButtonId) {
       const currentButton = ButtonDataList.find(
-        (btn) => btn.id === activeButtonId
+        (btn) => btn.id === currentActiveButtonId
       );
       if (
         currentButton &&
@@ -76,8 +81,12 @@ export default function Item({
       ) {
         setActiveBenchImage(
           upholsteryStitch
-            ? (view2 ? currentButton.src_stitch_view2! : currentButton.src_stitch!)
-            : (view2 ? currentButton.src_nostitch_view2! : currentButton.src_nostitch!)
+            ? view2
+              ? currentButton.src_stitch_view2!
+              : currentButton.src_stitch!
+            : view2
+              ? currentButton.src_nostitch_view2!
+              : currentButton.src_nostitch!
         );
       }
     }
@@ -122,8 +131,8 @@ export default function Item({
     buttonDataObject: ButtonData,
     panelName: string
   ) => {
-    setActiveButtonId(buttonDataObject.id); // Activate the clicked button, deactivate others in this Item
-    setActiveButtonColor(buttonDataObject.color); // Update the active button color in the parent component
+    setLocalActiveButtonId(buttonDataObject.id);
+    setActiveButtonColor(buttonDataObject.color, buttonDataObject.id);
 
     if (panelName === "Steel") {
       setActiveSteelImage(
@@ -183,7 +192,7 @@ export default function Item({
           ? {
               background: `radial-gradient(108.76% 95.18% at 20.89% 30.38%, ${gradientColors!.start} 22.5%, ${gradientColors!.end} 100%)`,
               transform:
-                activeButtonId === button.id ? "scale(1.2)" : "scale(1)",
+                currentActiveButtonId === button.id ? "scale(1.2)" : "scale(1)",
               transition: "transform 0.2s ease-in-out",
             }
           : {
@@ -200,7 +209,7 @@ export default function Item({
             isIconOnly
             className={`
               ring-1 ring-slate-200
-              ${activeButtonId === button.id ? "ring-4 ring-[#979f7e]" : ""}
+              ${currentActiveButtonId === button.id ? "ring-4 ring-[#979f7e]" : ""}
             `}
             style={gradientStyle}
             radius="full"
@@ -208,7 +217,7 @@ export default function Item({
             onPress={() => handleButtonClick(button, disclosurePanelName)}
             draggable={false}
             data-item-id={button.id}
-            aria-pressed={activeButtonId === button.id} // Accessibility attribute
+            aria-pressed={currentActiveButtonId === button.id} // Accessibility attribute
           />
         );
       })}

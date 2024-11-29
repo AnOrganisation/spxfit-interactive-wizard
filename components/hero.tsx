@@ -129,7 +129,7 @@ export default function Hero() {
       />
 
       {/* Controls Section */}
-      <section className="absolute flex items-center justify-center p-3 bottom-20 left-20 mobile:bottom-[335px] mobile:left-5">
+      <section className="absolute flex items-center justify-center z-10 p-3 bottom-20 left-20 mobile:bottom-[335px] mobile:left-5">
         <Button
           isIconOnly
           className="bg-transparent"
