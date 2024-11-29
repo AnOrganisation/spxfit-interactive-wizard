@@ -87,6 +87,7 @@ export default function Item({
     ButtonDataList,
     disclosurePanelName,
     setActiveBenchImage,
+    view2,
   ]);
 
   // Updated gradientColorMap with only specified colors

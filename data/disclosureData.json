@@ -15,13 +15,13 @@
             "id": "btn2",
             "color": "Fir Green",
             "src_stitch": "/Metal/Metal_FirGreen.webp",
-            "src_stitch_view2": "/Metal_View2/Metal_Black_View2.webp"
+            "src_stitch_view2": "/Metal_View2/Metal_FirGreen_View2.webp"
           },
           {
             "id": "btn3",
             "color": "Brown",
             "src_stitch": "/Metal/Metal_Brown.webp",
-            "src_stitch_view2": "/Metal_View2/Metal_FirGreen_View2.webp"
+            "src_stitch_view2": "/Metal_View2/Metal_Brown_View2.webp"
           },
           {
             "id": "btn4",
