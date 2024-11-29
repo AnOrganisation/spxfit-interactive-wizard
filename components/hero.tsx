@@ -43,17 +43,29 @@ export default function Hero() {
     setView2((prevView2) => {
       const newView2 = !prevView2;
       // Update steel image
-      const steelPath = activeSteelImage.replace("/Metal/", "/Metal_View2/").replace(".webp", "_View2.webp");
-      const regularSteelPath = activeSteelImage.replace("/Metal_View2/", "/Metal/").replace("_View2.webp", ".webp");
+      const steelPath = activeSteelImage
+        .replace("/Metal/", "/Metal_View2/")
+        .replace(".webp", "_View2.webp");
+      const regularSteelPath = activeSteelImage
+        .replace("/Metal_View2/", "/Metal/")
+        .replace("_View2.webp", ".webp");
       setActiveSteelImage(newView2 ? steelPath : regularSteelPath);
 
       // Update bench image
-      const benchPath = activeBenchImage.includes("_Stitch") 
-        ? activeBenchImage.replace("/Bench_Stitch/", "/Bench_Stitch_View2/").replace(".webp", "_View2.webp")
-        : activeBenchImage.replace("/Bench_NoStitch/", "/Bench_NoStitch_View2/").replace(".webp", "_View2.webp");
-      const regularBenchPath = activeBenchImage.includes("_Stitch_View2") 
-        ? activeBenchImage.replace("/Bench_Stitch_View2/", "/Bench_Stitch/").replace("_View2.webp", ".webp")
-        : activeBenchImage.replace("/Bench_NoStitch_View2/", "/Bench_NoStitch/").replace("_View2.webp", ".webp");
+      const benchPath = activeBenchImage.includes("_Stitch")
+        ? activeBenchImage
+            .replace("/Bench_Stitch/", "/Bench_Stitch_View2/")
+            .replace(".webp", "_View2.webp")
+        : activeBenchImage
+            .replace("/Bench_NoStitch/", "/Bench_NoStitch_View2/")
+            .replace(".webp", "_View2.webp");
+      const regularBenchPath = activeBenchImage.includes("_Stitch_View2")
+        ? activeBenchImage
+            .replace("/Bench_Stitch_View2/", "/Bench_Stitch/")
+            .replace("_View2.webp", ".webp")
+        : activeBenchImage
+            .replace("/Bench_NoStitch_View2/", "/Bench_NoStitch/")
+            .replace("_View2.webp", ".webp");
       setActiveBenchImage(newView2 ? benchPath : regularBenchPath);
 
       return newView2;
@@ -117,7 +129,7 @@ export default function Hero() {
       />
 
       {/* Controls Section */}
-      <section className="absolute flex items-center justify-center p-3 bottom-20 left-20">
+      <section className="absolute flex items-center justify-center p-3 bottom-20 left-20 mobile:bottom-[335px] mobile:left-5">
         <Button
           isIconOnly
           className="bg-transparent"

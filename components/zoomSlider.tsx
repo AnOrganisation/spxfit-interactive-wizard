@@ -10,7 +10,7 @@ export default function ZoomSlider({
 }: ZoomSliderProps) {
   return (
     <input
-      className="absolute z-10 w-32 p-2 rounded-lg bottom-10 left-40 bg-white/80"
+      className="absolute z-10 w-32 p-2 rounded-lg bottom-10 left-40 bg-white/80 mobile:bottom-48"
       max="2"
       min="1"
       step="0.01"
