@@ -4,7 +4,7 @@ import Item from "@/components/item";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { Button } from "@nextui-org/button";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface ButtonData {
   id: string;
@@ -34,6 +34,10 @@ interface FlattenedItemData {
   item: ItemData;
 }
 
+// Helper function to generate a unique key
+const getItemKey = (panelName: string, itemLabel: string) =>
+  `${panelName}-${itemLabel}`;
+
 export default function DisclosurePanel({
   disclosureData,
   setActiveSteelImage,
@@ -52,10 +56,6 @@ export default function DisclosurePanel({
   // State to manage the current item index (for carousel view)
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
 
-  // Helper function to generate a unique key
-  const getItemKey = (panelName: string, itemLabel: string) =>
-    `${panelName}-${itemLabel}`;
-
   // State to manage active buttons and colors
   const [activeButtonColors, setActiveButtonColors] = useState<{
     [key: string]: string;
@@ -64,37 +64,21 @@ export default function DisclosurePanel({
     [key: string]: string;
   }>({});
 
-  // Function to handle going to the previous item
-  const handlePrev = () => {
-    setCurrentItemIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : flattenedItems.length - 1
-    );
-  };
-
-  // Function to handle going to the next item
-  const handleNext = () => {
-    setCurrentItemIndex((prevIndex) =>
-      prevIndex < flattenedItems.length - 1 ? prevIndex + 1 : 0
-    );
-  };
-
   // Handler to set active button color and ID for a specific item
-  const handleSetActiveButtonColor = (
-    panelName: string,
-    itemLabel: string,
-    color: string,
-    buttonId: string
-  ) => {
-    const key = getItemKey(panelName, itemLabel);
-    setActiveButtonColors((prevColors) => ({
-      ...prevColors,
-      [key]: color,
-    }));
-    setActiveButtonIds((prevIds) => ({
-      ...prevIds,
-      [key]: buttonId,
-    }));
-  };
+  const handleSetActiveButtonColor = useCallback(
+    (panelName: string, itemLabel: string, color: string, buttonId: string) => {
+      const key = getItemKey(panelName, itemLabel);
+      setActiveButtonColors((prevColors) => ({
+        ...prevColors,
+        [key]: color,
+      }));
+      setActiveButtonIds((prevIds) => ({
+        ...prevIds,
+        [key]: buttonId,
+      }));
+    },
+    []
+  );
 
   // Get the current item and panel name
   const currentItemData = flattenedItems[currentItemIndex];
@@ -103,6 +87,43 @@ export default function DisclosurePanel({
 
   // State to handle upholstery stitch off or on
   const [upholsteryStitch, setUpholsteryStitch] = useState<boolean>(true);
+
+  // Disable the previous button if at the first item
+  const isPrevDisabled = currentItemIndex === 0;
+  // Disable the next button if at the last item
+  const isNextDisabled = currentItemIndex === flattenedItems.length - 1;
+
+  // Function to handle going to the previous item
+  const handlePrev = () => {
+    if (!isPrevDisabled) {
+      setCurrentItemIndex((prevIndex) => prevIndex - 1);
+    }
+  };
+
+  // Function to handle going to the next item
+  const handleNext = () => {
+    if (!isNextDisabled) {
+      setCurrentItemIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
+  // Effect to set the first button as active when the current item changes
+  useEffect(() => {
+    const key = getItemKey(currentPanelName, currentItem.label);
+    if (!activeButtonIds[key]) {
+      // No active button for this item, set the first button as active
+      const firstButton = currentItem.buttonData[0];
+      if (firstButton) {
+        handleSetActiveButtonColor(
+          currentPanelName,
+          currentItem.label,
+          firstButton.color,
+          firstButton.id
+        );
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentItemIndex]);
 
   return isCarouselView ? (
     // Render a carousel for mobile view based on the current item
@@ -114,8 +135,9 @@ export default function DisclosurePanel({
             isIconOnly
             radius="full"
             size="md"
-            className="bg-[#979f7e]"
+            className={`bg-[#979f7e] ${isPrevDisabled ? "opacity-50" : ""}`}
             onPress={handlePrev}
+            isDisabled={isPrevDisabled}
           >
             <Image
               alt="chevron left"
@@ -131,8 +153,10 @@ export default function DisclosurePanel({
             {currentPanelName}
           </div>
           <div className="text-[#979f7e] text-medium">
-            {/* Display the current item's label */}
-            {currentItem.label}
+            {/* Display the current selected color name */}
+            {activeButtonColors[
+              getItemKey(currentPanelName, currentItem.label)
+            ] || ""}
           </div>
         </div>
         <div>
@@ -141,8 +165,9 @@ export default function DisclosurePanel({
             isIconOnly
             radius="full"
             size="md"
-            className="bg-[#979f7e]"
+            className={`bg-[#979f7e] ${isNextDisabled ? "opacity-50" : ""}`}
             onPress={handleNext}
+            isDisabled={isNextDisabled}
           >
             <Image
               alt="chevron right"
@@ -160,6 +185,7 @@ export default function DisclosurePanel({
       >
         {/* Rendering Item component for the current item */}
         <Item
+          key={getItemKey(currentPanelName, currentItem.label)}
           ButtonDataList={currentItem.buttonData}
           disclosurePanelName={currentPanelName}
           activeButtonId={
