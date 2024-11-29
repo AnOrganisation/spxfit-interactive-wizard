@@ -98,10 +98,15 @@ export default function Hero() {
       // Convert the canvas to a data URL
       const dataURL = canvas.toDataURL("image/png");
 
+      // Generate a human-readable filename
+      const steelImageName = getImageName(activeSteelImage);
+      const benchImageName = getImageName(activeBenchImage);
+      const fileName = `Chest Press PL ${steelImageName} - ${benchImageName}.png`;
+
       // Create a temporary link element to trigger the download
       const link = document.createElement("a");
       link.href = dataURL;
-      link.download = "spec_image.png";
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -119,6 +124,24 @@ export default function Hero() {
       img.onerror = (err: Event | string) => reject(err); // Adjusted parameter type
       img.src = src;
     });
+  };
+
+  // Helper function to extract a human-readable name from the image path
+  const getImageName = (imagePath: string): string => {
+    // Extract the filename from the path
+    const pathParts = imagePath.split("/");
+    const filename = pathParts[pathParts.length - 1]; // e.g., "Metal_Black.webp"
+    // Remove the extension
+    const dotIndex = filename.lastIndexOf(".");
+    const filenameWithoutExt =
+      dotIndex !== -1 ? filename.substring(0, dotIndex) : filename;
+    // Replace underscores with spaces
+    const nameWithSpaces = filenameWithoutExt.replace(/_/g, " ");
+    // Remove redundant words (e.g., "Metal Metal Black" -> "Metal Black")
+    const words = nameWithSpaces.split(" ");
+    const uniqueWords = Array.from(new Set(words));
+    const humanReadableName = uniqueWords.join(" ");
+    return humanReadableName;
   };
 
   // Extract all image paths from disclosureData.json
