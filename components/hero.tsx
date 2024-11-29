@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import ImageContainer from "@/components/ImageContainer";
 import SidePanel from "@/components/SidePanel";
-import Image from "next/image";
+import NextImage from "next/image"; // Renamed import
 import Head from "next/head";
 import disclosureData from "@/data/disclosureData.json"; // Adjust the path accordingly
 import { Button } from "@nextui-org/button";
@@ -36,7 +36,7 @@ export default function Hero() {
     "/Bench_Stitch/Bench_Black_Stitch.webp"
   );
 
-  //State to track whether to display steel and bench images in side-view or not.
+  // State to track whether to display steel and bench images in side-view or not.
   const [view2, setView2] = useState<boolean>(false);
 
   const handleViewButtonClick = () => {
@@ -72,7 +72,54 @@ export default function Hero() {
     });
   };
 
-  const handleSaveButtonClick = () => {};
+  const handleSaveButtonClick = async () => {
+    try {
+      // Create a canvas element
+      const canvas = document.createElement("canvas");
+      canvas.width = 3840; // Adjust based on your image dimensions
+      canvas.height = 2160; // Adjust based on your image dimensions
+
+      const context = canvas.getContext("2d");
+      if (!context) {
+        console.error("Failed to get canvas context");
+        return;
+      }
+
+      // Load the images
+      const [steelImage, benchImage] = await Promise.all([
+        loadImage(activeSteelImage),
+        loadImage(activeBenchImage),
+      ]);
+
+      // Draw the images onto the canvas
+      context.drawImage(steelImage, 0, 0, canvas.width, canvas.height);
+      context.drawImage(benchImage, 0, 0, canvas.width, canvas.height);
+
+      // Convert the canvas to a data URL
+      const dataURL = canvas.toDataURL("image/png");
+
+      // Create a temporary link element to trigger the download
+      const link = document.createElement("a");
+      link.href = dataURL;
+      link.download = "spec_image.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error saving image:", error);
+    }
+  };
+
+  // Helper function to load an image and return a promise
+  const loadImage = (src: string): Promise<HTMLImageElement> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous"; // This is important for cross-origin images
+      img.onload = () => resolve(img);
+      img.onerror = (err: Event | string) => reject(err); // Adjusted parameter type
+      img.src = src;
+    });
+  };
 
   // Extract all image paths from disclosureData.json
   const imagePaths: string[] = [];
@@ -140,7 +187,12 @@ export default function Hero() {
               size="md"
               onPress={handleViewButtonClick}
             >
-              <Image alt="view button" src="/view.png" width={65} height={64} />
+              <NextImage
+                alt="view button"
+                src="/view.png"
+                width={65}
+                height={64}
+              />
             </Button>
             <p className="text-[#1d1d1d]">View</p>
           </div>
@@ -151,7 +203,12 @@ export default function Hero() {
               size="md"
               onPress={handleSaveButtonClick}
             >
-              <Image alt="save button" src="/save.png" width={65} height={64} />
+              <NextImage
+                alt="save button"
+                src="/save.png"
+                width={65}
+                height={64}
+              />
             </Button>
             <p className="text-[#1d1d1d]">Save</p>
           </div>
@@ -160,7 +217,7 @@ export default function Hero() {
 
       {/* Logo Section */}
       <section className="absolute flex items-center justify-center p-3 -top-20 mobile:-top-20 mobile:left-1">
-        <Image
+        <NextImage
           alt="SPX Logo"
           className="object-contain w-56 h-56"
           src="/logo.png"
