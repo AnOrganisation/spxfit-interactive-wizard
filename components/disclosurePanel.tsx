@@ -29,6 +29,11 @@ interface DisclosurePanelProps {
   view2: boolean;
 }
 
+interface FlattenedItemData {
+  panelName: string;
+  item: ItemData;
+}
+
 export default function DisclosurePanel({
   disclosureData,
   setActiveSteelImage,
@@ -36,60 +41,75 @@ export default function DisclosurePanel({
   isCarouselView,
   view2,
 }: DisclosurePanelProps) {
-  // State to manage the current panel index (for carousel view)
-  const [currentPanelIndex, setCurrentPanelIndex] = useState(0);
+  // Flattened array of items with panel information
+  const flattenedItems: FlattenedItemData[] = disclosureData.flatMap((panel) =>
+    panel.items.map((item) => ({
+      panelName: panel.disclosurePanelName,
+      item,
+    }))
+  );
+
+  // State to manage the current item index (for carousel view)
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
+
+  // Helper function to generate a unique key
+  const getItemKey = (panelName: string, itemLabel: string) =>
+    `${panelName}-${itemLabel}`;
 
   // State to manage active buttons and colors
   const [activeButtonColors, setActiveButtonColors] = useState<{
-    [itemLabel: string]: string;
+    [key: string]: string;
   }>({});
   const [activeButtonIds, setActiveButtonIds] = useState<{
-    [itemLabel: string]: string;
+    [key: string]: string;
   }>({});
 
-  // Function to handle going to the previous panel
+  // Function to handle going to the previous item
   const handlePrev = () => {
-    setCurrentPanelIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : disclosureData.length - 1
+    setCurrentItemIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : flattenedItems.length - 1
     );
   };
 
-  // Function to handle going to the next panel
+  // Function to handle going to the next item
   const handleNext = () => {
-    setCurrentPanelIndex((prevIndex) =>
-      prevIndex < disclosureData.length - 1 ? prevIndex + 1 : 0
+    setCurrentItemIndex((prevIndex) =>
+      prevIndex < flattenedItems.length - 1 ? prevIndex + 1 : 0
     );
   };
 
   // Handler to set active button color and ID for a specific item
   const handleSetActiveButtonColor = (
+    panelName: string,
     itemLabel: string,
     color: string,
     buttonId: string
   ) => {
+    const key = getItemKey(panelName, itemLabel);
     setActiveButtonColors((prevColors) => ({
       ...prevColors,
-      [itemLabel]: color,
+      [key]: color,
     }));
     setActiveButtonIds((prevIds) => ({
       ...prevIds,
-      [itemLabel]: buttonId,
+      [key]: buttonId,
     }));
   };
 
-  // Current panel based on index (for carousel view)
-  const currentPanel = disclosureData[currentPanelIndex];
-  const currentItem = currentPanel.items[0]; // Assuming we only show the first item of the current panel
+  // Get the current item and panel name
+  const currentItemData = flattenedItems[currentItemIndex];
+  const currentPanelName = currentItemData.panelName;
+  const currentItem = currentItemData.item;
 
-  //State to handle upholstery stitch off or on
+  // State to handle upholstery stitch off or on
   const [upholsteryStitch, setUpholsteryStitch] = useState<boolean>(true);
 
   return isCarouselView ? (
-    // Render a carousel for mobile view based on the currentPanel
-    <div className="flex flex-col items-center justify-center w-full h-32 border-2 border-red-600">
-      <div className="flex flex-row justify-between w-10/12 border-2 border-yellow-300 h-1/2">
+    // Render a carousel for mobile view based on the current item
+    <div className="flex flex-col items-center justify-center w-full h-32">
+      <div className="flex flex-row justify-between w-10/12 h-1/2">
         <div>
-          {/* Button to scroll to the previous panel */}
+          {/* Button to scroll to the previous item */}
           <Button
             isIconOnly
             radius="full"
@@ -108,7 +128,7 @@ export default function DisclosurePanel({
         <div className="flex flex-col items-center justify-center">
           <div className="text-[#979f7e] text-xl font-semibold">
             {/* Display the current panel's disclosurePanelName */}
-            {currentPanel.disclosurePanelName}
+            {currentPanelName}
           </div>
           <div className="text-[#979f7e] text-medium">
             {/* Display the current item's label */}
@@ -116,7 +136,7 @@ export default function DisclosurePanel({
           </div>
         </div>
         <div>
-          {/* Button to scroll to the next panel */}
+          {/* Button to scroll to the next item */}
           <Button
             isIconOnly
             radius="full"
@@ -135,15 +155,23 @@ export default function DisclosurePanel({
       </div>
       <div
         id="scroll-container"
-        className="w-full rounded-full bg-[#1d1d1d] h-2/3 flex items-center overflow-x-auto gap-2 p-4 touch-pan-x" // Enable touch-pan-x for better horizontal swipe handling
-        draggable={false} // Ensure the entire container is not draggable
+        className="w-full rounded-full bg-[#1d1d1d] h-2/3 flex items-center overflow-x-auto gap-2 p-4 touch-pan-x"
+        draggable={false}
       >
         {/* Rendering Item component for the current item */}
         <Item
           ButtonDataList={currentItem.buttonData}
-          disclosurePanelName={currentPanel.disclosurePanelName}
+          disclosurePanelName={currentPanelName}
+          activeButtonId={
+            activeButtonIds[getItemKey(currentPanelName, currentItem.label)]
+          }
           setActiveButtonColor={(color: string, buttonId: string) =>
-            handleSetActiveButtonColor(currentItem.label, color, buttonId)
+            handleSetActiveButtonColor(
+              currentPanelName,
+              currentItem.label,
+              color,
+              buttonId
+            )
           }
           setActiveSteelImage={setActiveSteelImage}
           setActiveBenchImage={setActiveBenchImage}
@@ -171,15 +199,26 @@ export default function DisclosurePanel({
               className="flex flex-col items-center justify-center mb-4"
             >
               <h3 className="mb-2 text-md text-[#979f7e] items-center justify-center ml-2">
-                {/* **Display the active color specific to this item** */}
-                {activeButtonColors[item.label] || ""}
+                {/* Display the active color specific to this item */}
+                {activeButtonColors[
+                  getItemKey(panel.disclosurePanelName, item.label)
+                ] || ""}
               </h3>
               <Item
                 ButtonDataList={item.buttonData}
                 disclosurePanelName={panel.disclosurePanelName}
-                activeButtonId={activeButtonIds[item.label]}
+                activeButtonId={
+                  activeButtonIds[
+                    getItemKey(panel.disclosurePanelName, item.label)
+                  ]
+                }
                 setActiveButtonColor={(color: string, buttonId: string) =>
-                  handleSetActiveButtonColor(item.label, color, buttonId)
+                  handleSetActiveButtonColor(
+                    panel.disclosurePanelName,
+                    item.label,
+                    color,
+                    buttonId
+                  )
                 }
                 setActiveSteelImage={setActiveSteelImage}
                 setActiveBenchImage={setActiveBenchImage}
