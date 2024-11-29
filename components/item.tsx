@@ -8,6 +8,8 @@ interface ButtonData {
   color: string;
   src_stitch?: string;
   src_nostitch?: string;
+  src_stitch_view2?: string;
+  src_nostitch_view2?: string;
 }
 
 interface ItemProps {
@@ -74,8 +76,8 @@ export default function Item({
       ) {
         setActiveBenchImage(
           upholsteryStitch
-            ? currentButton.src_stitch!
-            : currentButton.src_nostitch!
+            ? (view2 ? currentButton.src_stitch_view2! : currentButton.src_stitch!)
+            : (view2 ? currentButton.src_nostitch_view2! : currentButton.src_nostitch!)
         );
       }
     }
@@ -123,13 +125,27 @@ export default function Item({
     setActiveButtonColor(buttonDataObject.color); // Update the active button color in the parent component
 
     if (panelName === "Steel") {
-      setActiveSteelImage(buttonDataObject.src_stitch ?? "");
+      setActiveSteelImage(
+        view2
+          ? (buttonDataObject.src_stitch_view2 ?? "")
+          : (buttonDataObject.src_stitch ?? "")
+      );
     }
 
     if (panelName === "Upholstery") {
       if (upholsteryStitch) {
-        setActiveBenchImage(buttonDataObject.src_stitch ?? "");
-      } else setActiveBenchImage(buttonDataObject.src_nostitch ?? "");
+        setActiveBenchImage(
+          view2
+            ? (buttonDataObject.src_stitch_view2 ?? "")
+            : (buttonDataObject.src_stitch ?? "")
+        );
+      } else {
+        setActiveBenchImage(
+          view2
+            ? (buttonDataObject.src_nostitch_view2 ?? "")
+            : (buttonDataObject.src_nostitch ?? "")
+        );
+      }
     }
 
     if (buttonDataObject.id === "btn21") {
