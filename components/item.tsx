@@ -66,6 +66,7 @@ export default function Item({
       if (stitchOnButton) {
         setLocalActiveButtonId(stitchOnButton.id);
         setUpholsteryStitch(true); // Stitch is on by default
+        setActiveButtonColor(stitchOnButton.color, stitchOnButton.id);
       } else {
         // If "btn21" doesn't exist, set the first button as active
         const firstButton = ButtonDataList[0];
@@ -168,9 +169,11 @@ export default function Item({
     if (buttonDataObject.id === "btn21") {
       // Stitch On
       setUpholsteryStitch(true);
+      setActiveButtonColor(buttonDataObject.color, buttonDataObject.id);
     } else if (buttonDataObject.id === "btn22") {
       // Stitch Off
       setUpholsteryStitch(false);
+      setActiveButtonColor(buttonDataObject.color, buttonDataObject.id);
     } else {
       // For upholstery color buttons
       if (panelName === "Upholstery") {
