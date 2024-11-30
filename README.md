@@ -53,20 +53,20 @@ An interactive product configuration tool for SPX Fitness equipment, featuring r
 ## Getting Started
 
 1. Clone the repository:
-\`\`\`bash
+```bash
 git clone [repository-url]
 cd spxfit-interactive-wizard
-\`\`\`
+```
 
 2. Install dependencies:
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 3. Run development server:
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
 Visit [http://localhost:3000](http://localhost:3000)
 
@@ -92,10 +92,10 @@ Visit [http://localhost:3000](http://localhost:3000)
 
 ## Available Scripts
 
-- \`npm run dev\` - Development server
-- \`npm run build\` - Production build
-- \`npm run start\` - Production server
-- \`npm run lint\` - Code linting
+- ```npm run dev```   - Development server
+- ```npm run build``` - Production build
+- ```npm run start``` - Production server
+- ```npm run lint```  - Code linting
 
 ## Development Guidelines
 
