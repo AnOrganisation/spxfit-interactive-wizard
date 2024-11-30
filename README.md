@@ -72,23 +72,23 @@ Visit [http://localhost:3000](http://localhost:3000)
 
 ## Project Structure
 
-\`\`\`
+```plaintext
 ├── app/                    # Next.js app directory
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
-├── components/            # React components
-│   ├── hero.tsx          # Main container
-│   ├── ImageContainer.tsx # Image display
-│   ├── SidePanel.tsx     # Controls panel
-│   └── ...               # Other components
-├── config/               # Configuration
-├── data/                # Static data
-├── public/              # Static assets
-│   ├── Metal/           # Steel finish images
-│   └── Bench_*/         # Upholstery images
-├── styles/             # Global styles
-└── types/             # TypeScript types
-\`\`\`
+│   ├── layout.tsx          # Root layout
+│   └── page.tsx            # Home page
+├── components/             # React components
+│   ├── hero.tsx            # Main container
+│   ├── ImageContainer.tsx  # Image display
+│   ├── SidePanel.tsx       # Controls panel
+│   └── ...                 # Other components
+├── config/                 # Configuration
+├── data/                   # Static data
+├── public/                 # Static assets
+│   ├── Metal/              # Steel finish images
+│   └── Bench_*/            # Upholstery images
+├── styles/                 # Global styles
+└── types/                  # TypeScript types
+```
 
 ## Available Scripts
 
