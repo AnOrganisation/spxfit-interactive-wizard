@@ -47,55 +47,55 @@ An interactive product configuration tool for SPX Fitness equipment, featuring r
 
 ## Prerequisites
 
-- Node.js 18.17 or later
+- Node.js 22.2.0
 - Package manager: npm, yarn, pnpm, or bun
 
 ## Getting Started
 
 1. Clone the repository:
-\`\`\`bash
+```bash
 git clone [repository-url]
 cd spxfit-interactive-wizard
-\`\`\`
+```
 
 2. Install dependencies:
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 3. Run development server:
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
 Visit [http://localhost:3000](http://localhost:3000)
 
 ## Project Structure
 
-\`\`\`
+```plaintext
 ├── app/                    # Next.js app directory
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
-├── components/            # React components
-│   ├── hero.tsx          # Main container
-│   ├── ImageContainer.tsx # Image display
-│   ├── SidePanel.tsx     # Controls panel
-│   └── ...               # Other components
-├── config/               # Configuration
-├── data/                # Static data
-├── public/              # Static assets
-│   ├── Metal/           # Steel finish images
-│   └── Bench_*/         # Upholstery images
-├── styles/             # Global styles
-└── types/             # TypeScript types
-\`\`\`
+│   ├── layout.tsx          # Root layout
+│   └── page.tsx            # Home page
+├── components/             # React components
+│   ├── hero.tsx            # Main container
+│   ├── ImageContainer.tsx  # Image display
+│   ├── SidePanel.tsx       # Controls panel
+│   └── ...                 # Other components
+├── config/                 # Configuration
+├── data/                   # Static data
+├── public/                 # Static assets
+│   ├── Metal/              # Steel finish images
+│   └── Bench_*/            # Upholstery images
+├── styles/                 # Global styles
+└── types/                  # TypeScript types
+```
 
 ## Available Scripts
 
-- \`npm run dev\` - Development server
-- \`npm run build\` - Production build
-- \`npm run start\` - Production server
-- \`npm run lint\` - Code linting
+- ```npm run dev```   - Development server
+- ```npm run build``` - Production build
+- ```npm run start``` - Production server
+- ```npm run lint```  - Code linting
 
 ## Development Guidelines
 
