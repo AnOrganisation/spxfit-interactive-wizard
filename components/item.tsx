@@ -214,7 +214,8 @@ export default function Item({
         mobile:py-6 
         mobile:min-h-[4rem] 
         mobile:flex-row 
-        mobile:flex-nowrap 
+        mobile:flex-nowrap
+        mobile:gap-2
         mobile:justify-center 
         mobile:items-center 
         mobile:overflow-x-auto

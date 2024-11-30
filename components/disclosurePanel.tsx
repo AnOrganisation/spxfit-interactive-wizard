@@ -1,5 +1,3 @@
-// disclosurePanel.tsx
-
 import Item from "@/components/item";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { Button } from "@nextui-org/button";
@@ -80,11 +78,6 @@ export default function DisclosurePanel({
     []
   );
 
-  // Get the current item and panel name
-  const currentItemData = flattenedItems[currentItemIndex];
-  const currentPanelName = currentItemData.panelName;
-  const currentItem = currentItemData.item;
-
   // State to handle upholstery stitch off or on
   const [upholsteryStitch, setUpholsteryStitch] = useState<boolean>(true);
 
@@ -107,26 +100,13 @@ export default function DisclosurePanel({
     }
   };
 
-  // Effect to set the first button as active when the current item changes
-  useEffect(() => {
-    const key = getItemKey(currentPanelName, currentItem.label);
-    if (!activeButtonIds[key]) {
-      // No active button for this item, set the first button as active
-      const firstButton = currentItem.buttonData[0];
-      if (firstButton) {
-        handleSetActiveButtonColor(
-          currentPanelName,
-          currentItem.label,
-          firstButton.color,
-          firstButton.id
-        );
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentItemIndex]);
+  // Get the current item and panel name
+  const currentItemData = flattenedItems[currentItemIndex];
+  const currentPanelName = currentItemData.panelName;
+  const currentItem = currentItemData.item;
 
   return isCarouselView ? (
-    // Render a carousel for mobile view based on the current item
+    // Render all items for mobile view, but show only the current one
     <div className="flex flex-col items-center justify-center w-full h-32">
       <div className="flex flex-row justify-between w-10/12 h-1/2">
         <div>
@@ -180,31 +160,43 @@ export default function DisclosurePanel({
       </div>
       <div
         id="scroll-container"
-        className="w-full rounded-full bg-[#1d1d1d] h-2/3 flex items-center overflow-x-auto gap-2 p-4 touch-pan-x"
+        className="flex items-center justify-center w-full overflow-hidden h-2/3"
         draggable={false}
       >
-        {/* Rendering Item component for the current item */}
-        <Item
-          key={getItemKey(currentPanelName, currentItem.label)}
-          ButtonDataList={currentItem.buttonData}
-          disclosurePanelName={currentPanelName}
-          activeButtonId={
-            activeButtonIds[getItemKey(currentPanelName, currentItem.label)]
-          }
-          setActiveButtonColor={(color: string, buttonId: string) =>
-            handleSetActiveButtonColor(
-              currentPanelName,
-              currentItem.label,
-              color,
-              buttonId
-            )
-          }
-          setActiveSteelImage={setActiveSteelImage}
-          setActiveBenchImage={setActiveBenchImage}
-          upholsteryStitch={upholsteryStitch}
-          setUpholsteryStitch={setUpholsteryStitch}
-          view2={view2}
-        />
+        {/* Render all Item components but show only the current one */}
+        {flattenedItems.map((itemData, index) => (
+          <div
+            key={getItemKey(itemData.panelName, itemData.item.label)}
+            className={`absolute w-full transition-opacity duration-300 ${
+              index === currentItemIndex
+                ? "opacity-100"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            <Item
+              ButtonDataList={itemData.item.buttonData}
+              disclosurePanelName={itemData.panelName}
+              activeButtonId={
+                activeButtonIds[
+                  getItemKey(itemData.panelName, itemData.item.label)
+                ]
+              }
+              setActiveButtonColor={(color: string, buttonId: string) =>
+                handleSetActiveButtonColor(
+                  itemData.panelName,
+                  itemData.item.label,
+                  color,
+                  buttonId
+                )
+              }
+              setActiveSteelImage={setActiveSteelImage}
+              setActiveBenchImage={setActiveBenchImage}
+              upholsteryStitch={upholsteryStitch}
+              setUpholsteryStitch={setUpholsteryStitch}
+              view2={view2}
+            />
+          </div>
+        ))}
       </div>
     </div>
   ) : (
