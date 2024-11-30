@@ -205,7 +205,10 @@ export default function DisclosurePanel({
     </div>
   ) : (
     // Render the accordion for desktop view
-    <Accordion selectionMode="multiple" defaultExpandedKeys={["Steel"]}>
+    <Accordion
+      selectionMode="multiple"
+      defaultExpandedKeys={["Steel", "Upholstery"]}
+    >
       {disclosureData.map((panel) => (
         <AccordionItem
           key={panel.disclosurePanelName}
