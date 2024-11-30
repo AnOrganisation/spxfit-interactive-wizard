@@ -174,6 +174,7 @@ export default function Item({
       // Stitch Off
       setUpholsteryStitch(false);
       setActiveButtonColor(buttonDataObject.color, buttonDataObject.id);
+      console.log("Stitch Off");
     } else {
       // For upholstery color buttons
       if (panelName === "Upholstery") {
