@@ -1,102 +1,127 @@
 # SPXfit Interactive Wizard
 
-A Next.js-based interactive configuration wizard for SPX Fitness equipment, featuring dynamic 3D visualization and customization options.
+An interactive product configuration tool for SPX Fitness equipment, featuring real-time 3D visualization and customization options. Built with Next.js 14 and modern web technologies.
 
 ## Features
 
-- Interactive equipment visualization with zoom and pan controls
-- Real-time color and material customization
-- Responsive design for all device sizes
-- Dark/light theme support
-- Touch-enabled for mobile devices
+- **Interactive Visualization**
+  - Real-time product rendering
+  - Multiple view angles
+  - Smooth zoom and pan controls
+  - High-quality WebP image format
+
+- **Customization Options**
+  - Multiple steel finishes
+  - Various upholstery colors
+  - Stitch pattern options
+  - Real-time preview updates
+
+- **User Experience**
+  - Responsive design for all devices
+  - Touch-enabled for mobile
+  - Intuitive controls
+  - Image export functionality
+
+- **Performance**
+  - Image preloading
+  - Optimized asset delivery
+  - Fast page loads
+  - Smooth transitions
 
 ## Tech Stack
 
-- [Next.js 14](https://nextjs.org/) - React framework with app directory structure
-- [NextUI v2](https://nextui.org/) - Modern UI component library
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- [Tailwind Variants](https://tailwind-variants.org) - Variant generation utility
-- [TypeScript](https://www.typescriptlang.org/) - Static type checking
-- [Framer Motion](https://www.framer.com/motion/) - Animation library
-- [next-themes](https://github.com/pacocoursey/next-themes) - Theme management
+- **Framework**
+  - [Next.js 14](https://nextjs.org/) - React framework with App Router
+  - [TypeScript](https://www.typescriptlang.org/) - Type safety
+  - [React 18](https://reactjs.org/) - UI library
+
+- **UI Components**
+  - [NextUI v2](https://nextui.org/) - Modern UI components
+  - [Tailwind CSS](https://tailwindcss.com/) - Utility-first styling
+  - [Tailwind Variants](https://tailwind-variants.org) - Style variants
+
+- **Tools**
+  - [ESLint](https://eslint.org/) - Code quality
+  - [Prettier](https://prettier.io/) - Code formatting
+  - [next-themes](https://github.com/pacocoursey/next-themes) - Theme management
 
 ## Prerequisites
 
 - Node.js 18.17 or later
-- npm, yarn, pnpm, or bun package manager
+- Package manager: npm, yarn, pnpm, or bun
 
 ## Getting Started
 
 1. Clone the repository:
-```bash
-git clone [your-repository-url]
+\`\`\`bash
+git clone [repository-url]
 cd spxfit-interactive-wizard
-```
+\`\`\`
 
 2. Install dependencies:
-```bash
+\`\`\`bash
 npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
-```
+\`\`\`
 
-3. Run the development server:
-```bash
+3. Run development server:
+\`\`\`bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+\`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
-
-## Available Scripts
-
-- `npm run dev` - Start development server with turbo
-- `npm run build` - Create production build
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint for code quality checks
-
-## Testing
-
-Run the linting checks:
-```bash
-npm run lint
-```
+Visit [http://localhost:3000](http://localhost:3000)
 
 ## Project Structure
 
-```
+\`\`\`
 ├── app/                    # Next.js app directory
-├── components/            # Reusable React components
-├── config/               # Configuration files
-├── data/                 # Static JSON data
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Home page
+├── components/            # React components
+│   ├── hero.tsx          # Main container
+│   ├── ImageContainer.tsx # Image display
+│   ├── SidePanel.tsx     # Controls panel
+│   └── ...               # Other components
+├── config/               # Configuration
+├── data/                # Static data
 ├── public/              # Static assets
+│   ├── Metal/           # Steel finish images
+│   └── Bench_*/         # Upholstery images
 ├── styles/             # Global styles
-└── types/             # TypeScript type definitions
-```
+└── types/             # TypeScript types
+\`\`\`
+
+## Available Scripts
+
+- \`npm run dev\` - Development server
+- \`npm run build\` - Production build
+- \`npm run start\` - Production server
+- \`npm run lint\` - Code linting
 
 ## Development Guidelines
 
-- Follow the ESLint configuration for code style
-- Use TypeScript for type safety
-- Implement responsive designs using Tailwind CSS
-- Follow the component structure in the components directory
-- Keep configuration in the config directory
+1. **Code Style**
+   - Follow ESLint configuration
+   - Use TypeScript strictly
+   - Follow component structure
+   - Keep components focused
 
-## Environment Setup
+2. **Performance**
+   - Optimize images
+   - Implement lazy loading
+   - Monitor bundle size
+   - Use performance tools
 
-For pnpm users, add to `.npmrc`:
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
+3. **Responsive Design**
+   - Mobile-first approach
+   - Test all breakpoints
+   - Touch-friendly controls
+   - Accessible interface
+
+4. **State Management**
+   - Use React hooks
+   - Keep state close to usage
+   - Avoid prop drilling
+   - Document state flow
 
 ## Browser Support
 
@@ -107,12 +132,12 @@ public-hoist-pattern[]=*@nextui-org/*
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
+1. Fork repository
+2. Create feature branch
+3. Follow style guide
+4. Test thoroughly
+5. Submit pull request
 
 ## License
 
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+Licensed under the [MIT license](LICENSE).
