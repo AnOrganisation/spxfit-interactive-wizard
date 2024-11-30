@@ -160,41 +160,45 @@ export default function DisclosurePanel({
       </div>
       <div
         id="scroll-container"
-        className="flex items-center justify-center w-full overflow-hidden h-2/3"
+        className="relative flex items-center justify-center w-full overflow-hidden h-2/3 bg-[#1d1d1d] rounded-full"
         draggable={false}
       >
         {/* Render all Item components but show only the current one */}
         {flattenedItems.map((itemData, index) => (
           <div
             key={getItemKey(itemData.panelName, itemData.item.label)}
-            className={`absolute w-full transition-opacity duration-300 ${
+            className={`absolute inset-0 transition-opacity duration-300 ${
               index === currentItemIndex
                 ? "opacity-100"
                 : "opacity-0 pointer-events-none"
             }`}
           >
-            <Item
-              ButtonDataList={itemData.item.buttonData}
-              disclosurePanelName={itemData.panelName}
-              activeButtonId={
-                activeButtonIds[
-                  getItemKey(itemData.panelName, itemData.item.label)
-                ]
-              }
-              setActiveButtonColor={(color: string, buttonId: string) =>
-                handleSetActiveButtonColor(
-                  itemData.panelName,
-                  itemData.item.label,
-                  color,
-                  buttonId
-                )
-              }
-              setActiveSteelImage={setActiveSteelImage}
-              setActiveBenchImage={setActiveBenchImage}
-              upholsteryStitch={upholsteryStitch}
-              setUpholsteryStitch={setUpholsteryStitch}
-              view2={view2}
-            />
+            <div className="flex items-center justify-center w-full h-full">
+              <div className="max-w-full p-0">
+                <Item
+                  ButtonDataList={itemData.item.buttonData}
+                  disclosurePanelName={itemData.panelName}
+                  activeButtonId={
+                    activeButtonIds[
+                      getItemKey(itemData.panelName, itemData.item.label)
+                    ]
+                  }
+                  setActiveButtonColor={(color: string, buttonId: string) =>
+                    handleSetActiveButtonColor(
+                      itemData.panelName,
+                      itemData.item.label,
+                      color,
+                      buttonId
+                    )
+                  }
+                  setActiveSteelImage={setActiveSteelImage}
+                  setActiveBenchImage={setActiveBenchImage}
+                  upholsteryStitch={upholsteryStitch}
+                  setUpholsteryStitch={setUpholsteryStitch}
+                  view2={view2}
+                />
+              </div>
+            </div>
           </div>
         ))}
       </div>
