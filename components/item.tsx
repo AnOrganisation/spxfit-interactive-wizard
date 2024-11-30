@@ -206,8 +206,10 @@ export default function Item({
       className="
               flex 
               flex-wrap 
-              justify-start 
+              justify-center
               gap-4 
+              px-16
+              py-2
               mobile:px-4 
               mobile:py-6 
               mobile:min-h-[4rem] 
