@@ -204,20 +204,18 @@ export default function Item({
   return (
     <div
       className="
-    flex 
-    flex-wrap 
-    justify-center 
-    gap-4 
-    px-4 
-    py-4 
-    mobile:px-4 
-    mobile:py-6 
-    mobile:min-h-[4rem] 
-    mobile:flex-row 
-    mobile:flex-nowrap 
-    mobile:justify-center 
-    mobile:items-center 
-    mobile:overflow-x-auto
+              flex 
+              flex-wrap 
+              justify-start 
+              gap-4 
+              mobile:px-4 
+              mobile:py-6 
+              mobile:min-h-[4rem] 
+              mobile:flex-row 
+              mobile:flex-nowrap 
+              mobile:justify-start 
+              mobile:items-center 
+              mobile:overflow-x-auto
       "
     >
       {ButtonDataList.map((button) => {

@@ -160,7 +160,7 @@ export default function DisclosurePanel({
       </div>
       <div
         id="scroll-container"
-        className="relative flex items-center justify-center w-full overflow-hidden h-2/3 bg-[#1d1d1d] rounded-full"
+        className="relative flex items-center justify-center w-full overflow-x-auto h-2/3 bg-[#1d1d1d] rounded-full"
         draggable={false}
       >
         {/* Render all Item components but show only the current one */}
@@ -174,7 +174,7 @@ export default function DisclosurePanel({
             }`}
           >
             <div className="flex items-center justify-center w-full h-full">
-              <div className="max-w-full p-0">
+              <div className="max-w-full p-0 overflow-x-auto">
                 <Item
                   ButtonDataList={itemData.item.buttonData}
                   disclosurePanelName={itemData.panelName}
