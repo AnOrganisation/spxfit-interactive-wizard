@@ -12,6 +12,12 @@ module.exports = {
       screens: {
         mobile: { max: "430px" }, // Custom screen size for 430px and below
       },
+      scale: {
+        175: "1.75",
+        200: "2",
+        215: "2.05",
+        250: "2.5",
+      },
       fontFamily: {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],

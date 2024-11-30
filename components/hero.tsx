@@ -201,7 +201,7 @@ export default function Hero() {
       />
 
       {/* Controls Section */}
-      <section className="absolute z-10 flex items-center justify-center p-3 bottom-20 left-20 mobile:bottom-64 mobile:left-0 w-44 mobile:w-32">
+      <section className="absolute z-10 flex items-center justify-center p-3 bottom-20 left-20 mobile:bottom-36 mobile:left-36 w-44 mobile:w-32">
         <div className="flex flex-row items-center justify-between w-full">
           <div className="flex flex-col items-center justify-center">
             <Button
@@ -215,6 +215,7 @@ export default function Hero() {
                 src="/view.png"
                 width={65}
                 height={64}
+                className="mobile:w-6 mobile:h-6"
               />
             </Button>
             <p className="text-[#1d1d1d]">View</p>
@@ -231,6 +232,7 @@ export default function Hero() {
                 src="/save.png"
                 width={65}
                 height={64}
+                className="mobile:w-6 mobile:h-6"
               />
             </Button>
             <p className="text-[#1d1d1d]">Save</p>

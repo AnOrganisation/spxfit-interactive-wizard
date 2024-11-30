@@ -18,7 +18,7 @@ export default function ZoomSlider({
   return (
     <input
       style={{ accentColor: "black" }}
-      className="absolute z-10 w-32 p-2 rounded-lg bottom-10 left-24 bg-white/80 mobile:bottom-72 mobile:left-72"
+      className="absolute z-10 w-32 p-2 rounded-lg bottom-10 left-24 bg-white/80 mobile:hidden"
       max={maxZoom}
       min={1}
       step="0.01"
