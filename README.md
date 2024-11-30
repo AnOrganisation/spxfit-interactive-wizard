@@ -47,7 +47,7 @@ An interactive product configuration tool for SPX Fitness equipment, featuring r
 
 ## Prerequisites
 
-- Node.js 18.17 or later
+- Node.js 22.2.0
 - Package manager: npm, yarn, pnpm, or bun
 
 ## Getting Started
